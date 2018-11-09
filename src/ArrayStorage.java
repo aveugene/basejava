@@ -32,14 +32,14 @@ public class ArrayStorage {
         int i;
         for (i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
-                storage[i] = null;
+                for (int j = i; j < size; j++) {
+                    storage[j] = storage[j + 1];
+                }
+                size--;
                 break;
             }
         }
-        for (int j = i; j < size; j++) {
-            storage[j] = storage[j + 1];
-        }
-        size--;
+
     }
 
     /**
