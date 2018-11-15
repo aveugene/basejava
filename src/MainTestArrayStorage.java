@@ -16,6 +16,13 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
 
+        Resume r4 = new Resume();
+        r4.uuid = "uuid2";
+        ARRAY_STORAGE.update(r4);
+        System.out.println("Get r2: " + ARRAY_STORAGE.get(r2.uuid));
+        System.out.println("Get r4: " + ARRAY_STORAGE.get(r4.uuid));
+        ARRAY_STORAGE.save(r2);
+
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 

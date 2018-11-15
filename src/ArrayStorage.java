@@ -8,37 +8,59 @@ public class ArrayStorage {
     private int size;
 
     void clear() {
-        for (int i = 0; i < size; i++) {
-            storage[i] = null;
-        }
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    void save(Resume r) {
-        storage[size] = r;
-        size++;
+    private int findResumeIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    void save(Resume resume) {
+        if (size >= storage.length) {
+            System.out.println("ERROR: Storage is full.");
+        } else {
+            if (findResumeIndex(resume.getUuid()) == -1) {
+                storage[size] = resume;
+                size++;
+            } else {
+                System.out.println("ERROR: Resume is in the Storage already.");
+            }
+        }
+    }
+
+    void update(Resume resume) {
+        int resumeIndex = findResumeIndex(resume.getUuid());
+        if (resumeIndex > -1) {
+            storage[resumeIndex] = resume;
+        } else {
+            System.out.println("ERROR: Resume not found.");
+        }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                return storage[i];
-            }
+        int resumeIndex = findResumeIndex(uuid);
+        if (resumeIndex > -1) {
+            return storage[resumeIndex];
         }
+        System.out.println("ERROR: Resume not found.");
         return null;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
-                for (int j = i; j < size; j++) {
-                    storage[j] = storage[j + 1];
-                }
-                size--;
-                break;
-            }
+        int resumeIndex = findResumeIndex(uuid);
+        if (resumeIndex > -1) {
+            storage[resumeIndex] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("ERROR: Resume not found.");
         }
-
     }
 
     /**
