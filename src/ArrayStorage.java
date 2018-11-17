@@ -4,21 +4,12 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size;
 
     void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-    }
-
-    private int findResumeIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     void save(Resume resume) {
@@ -72,5 +63,14 @@ public class ArrayStorage {
 
     int size() {
         return size;
+    }
+
+    private int findResumeIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
