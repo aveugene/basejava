@@ -18,15 +18,15 @@ public class MainReflection {
 
         // TODO invoke method r.toString via reflection
         Method toStringMethod = r.getClass().getMethod("toString");
-        System.out.println(toStringMethod.invoke(r, null));
+        System.out.println(toStringMethod.invoke(r));
 
         Method[] methodsArray = r.getClass().getMethods();
         for (Method method : methodsArray) {
             if (method.getName().equals("toString")) {
-                System.out.println(method.invoke(r, null));
+                System.out.println(method.invoke(r));
             }
             if (method.getName().startsWith("toS") && method.getParameterTypes().length == 0 && method.getReturnType().getName().contains("String")){
-                System.out.println(method.invoke(r, null));
+                System.out.println(method.invoke(r));
             }
         }
     }
