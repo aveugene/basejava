@@ -1,14 +1,16 @@
 package ru.javawebinar.basejava;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.SortedArrayStorage;
+import ru.javawebinar.basejava.storage.MapStorage;
 import ru.javawebinar.basejava.storage.Storage;
 
 /**
  * Test for your ru.javawebinar.basejava.storage.ArrayStorage implementation
  */
 public class MainTestArrayStorage {
-    private static final Storage ARRAY_STORAGE = new SortedArrayStorage();
+    private static final Storage ARRAY_STORAGE = new MapStorage();
 
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid1");
@@ -23,12 +25,21 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.update(r4);
         System.out.println("Get r2: " + ARRAY_STORAGE.get(r2.getUuid()));
         System.out.println("Get r4: " + ARRAY_STORAGE.get(r4.getUuid()));
-        ARRAY_STORAGE.save(r2);
+
+        try {
+            ARRAY_STORAGE.save(r2);
+        } catch (ExistStorageException ex) {
+            System.out.println(r2.getUuid() + " already in storage!");
+        }
 
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
-        System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+        try {
+            System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
+        } catch (NotExistStorageException ex) {
+            System.out.println("no dummy uuid in storage found!");
+        }
 
         printAll();
         ARRAY_STORAGE.delete(r1.getUuid());
