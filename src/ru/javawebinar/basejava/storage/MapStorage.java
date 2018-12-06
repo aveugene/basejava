@@ -30,7 +30,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     protected void realUpdate(Resume resume, Object index) {
-        storage.put(resume.getUuid(), resume);
+        storage.replace(resume.getUuid(), resume);
     }
 
     public Resume[] getAll() {
