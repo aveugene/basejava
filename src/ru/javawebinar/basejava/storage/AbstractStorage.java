@@ -7,50 +7,50 @@ import ru.javawebinar.basejava.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        Object index = getKeyIfExist(resume.getUuid());
-        realUpdate(resume, index);
+        Object searchKey = getKeyIfExist(resume.getUuid());
+        realUpdate(resume, searchKey);
     }
 
     public void save(Resume resume) {
-        Object index = getKeyIfNotExist(resume.getUuid());
-        realSave(resume, index);
+        Object searchKey = getKeyIfNotExist(resume.getUuid());
+        realSave(resume, searchKey);
     }
 
     public void delete(String uuid) {
-        Object index = getKeyIfExist(uuid);
-        realDelete(uuid, index);
+        Object searchKey = getKeyIfExist(uuid);
+        realDelete(searchKey);
     }
 
     public Resume get(String uuid) {
-        Object index = getKeyIfExist(uuid);
-        return realGet(uuid, index);
+        Object searchKey = getKeyIfExist(uuid);
+        return realGet(searchKey);
     }
 
     private Object getKeyIfExist(String uuid) {
-        Object index = getKey(uuid);
-        if (!isKeyExist(index)) {
+        Object searchKey = getKey(uuid);
+        if (!isKeyExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
     private Object getKeyIfNotExist(String uuid) {
-        Object index = getKey(uuid);
-        if (isKeyExist(index)) {
+        Object searchKey = getKey(uuid);
+        if (isKeyExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 
     protected abstract Object getKey(String uuid);
 
-    protected abstract boolean isKeyExist(Object index);
+    protected abstract boolean isKeyExist(Object searchKey);
 
-    protected abstract void realUpdate(Resume resume, Object index);
+    protected abstract void realUpdate(Resume resume, Object searchKey);
 
-    protected abstract void realSave(Resume resume, Object index);
+    protected abstract void realSave(Resume resume, Object searchKey);
 
-    protected abstract void realDelete(String uuid, Object index);
+    protected abstract void realDelete(Object searchKey);
 
-    protected abstract Resume realGet(String uuid, Object index);
+    protected abstract Resume realGet(Object searchKey);
 }

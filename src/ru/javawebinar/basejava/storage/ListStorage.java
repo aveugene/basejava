@@ -25,27 +25,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKeyExist(Object index) {
-        return (int) index >= 0;
+    protected boolean isKeyExist(Object searchKey) {
+        return (int) searchKey >= 0;
     }
 
-    protected void realUpdate(Resume resume, Object index) {
-        storage.set((int) index, resume);
+    protected void realUpdate(Resume resume, Object searchKey) {
+        storage.set((int) searchKey, resume);
     }
 
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
-    protected void realSave(Resume resume, Object index) {
+    protected void realSave(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 
-    protected void realDelete(String uuid, Object index) {
-        storage.remove((int) index);
+    protected void realDelete(Object searchKey) {
+        storage.remove((int) searchKey);
     }
 
-    protected Resume realGet(String uuid, Object index) {
-        return storage.get((int) index);
+    protected Resume realGet(Object searchKey) {
+        return storage.get((int) searchKey);
     }
 }

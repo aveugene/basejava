@@ -22,35 +22,35 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected void realUpdate(Resume resume, Object index) {
-        storage[(int) index] = resume;
+    protected void realUpdate(Resume resume, Object searchKey) {
+        storage[(int) searchKey] = resume;
     }
 
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
-    protected void realSave(Resume resume, Object index) {
+    protected void realSave(Resume resume, Object searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow.", resume.getUuid());
         } else {
-            insertElement(resume, (int) index);
+            insertElement(resume, (int) searchKey);
             size++;
         }
     }
 
-    protected void realDelete(String uuid, Object index) {
-        fillDeletedElement((int) index);
+    protected void realDelete(Object searchKey) {
+        fillDeletedElement((int) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
-    protected Resume realGet(String uuid, Object index) {
-        return storage[(int) index];
+    protected Resume realGet(Object searchKey) {
+        return storage[(int) searchKey];
     }
 
-    protected boolean isKeyExist(Object index) {
-        return (int) index >= 0;
+    protected boolean isKeyExist(Object searchKey) {
+        return (int) searchKey >= 0;
 
     }
 
