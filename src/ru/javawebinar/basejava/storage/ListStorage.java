@@ -17,30 +17,35 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected Object getKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (storage.get(i).getUuid().equals(uuid)) return i;
         }
         return -1;
     }
 
-    protected void realUpdate(Resume resume, int index) {
-        storage.set(index, resume);
+    @Override
+    protected boolean checkKey(Object index) {
+        return (int) index >= 0;
+    }
+
+    protected void realUpdate(Resume resume, Object index) {
+        storage.set((int) index, resume);
     }
 
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
 
-    protected void realSave(Resume resume, int index) {
+    protected void realSave(Resume resume, Object index) {
         storage.add(resume);
     }
 
-    protected void realDelete(String uuid, int index) {
-        storage.remove(index);
+    protected void realDelete(String uuid, Object index) {
+        storage.remove((int) index);
     }
 
-    protected Resume realGet(String uuid, int index) {
-        return storage.get(index);
+    protected Resume realGet(String uuid, Object index) {
+        return storage.get((int) index);
     }
 }

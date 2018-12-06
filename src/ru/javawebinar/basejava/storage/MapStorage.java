@@ -17,16 +17,19 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        for (String storageUuid : storage.keySet()) {
-            if (storageUuid.equals(uuid)){
-                return 1;
-            }
+    protected Object getKey(String uuid) {
+        if (storage.containsKey(uuid)) {
+            return uuid;
         }
-        return -1;
+        return null;
     }
 
-    protected void realUpdate(Resume resume, int index) {
+    @Override
+    protected boolean checkKey(Object index) {
+        return index != null;
+    }
+
+    protected void realUpdate(Resume resume, Object index) {
         storage.put(resume.getUuid(), resume);
     }
 
@@ -34,15 +37,15 @@ public class MapStorage extends AbstractStorage {
         return storage.values().toArray(new Resume[0]);
     }
 
-    protected void realSave(Resume resume, int index) {
+    protected void realSave(Resume resume, Object index) {
         storage.put(resume.getUuid(), resume);
     }
 
-    protected void realDelete(String uuid, int index) {
+    protected void realDelete(String uuid, Object index) {
         storage.remove(uuid);
     }
 
-    protected Resume realGet(String uuid, int index) {
+    protected Resume realGet(String uuid, Object index) {
         return storage.get(uuid);
     }
 }
