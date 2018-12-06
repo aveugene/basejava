@@ -25,7 +25,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkKey(Object index) {
+    protected boolean isKeyExist(Object index) {
         return (int) index >= 0;
     }
 

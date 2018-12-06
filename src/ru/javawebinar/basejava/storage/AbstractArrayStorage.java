@@ -49,7 +49,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[(int) index];
     }
 
-    protected boolean checkKey(Object index) {
+    protected boolean isKeyExist(Object index) {
         return (int) index >= 0;
 
     }

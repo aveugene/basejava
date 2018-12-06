@@ -25,7 +25,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean checkKey(Object index) {
+    protected boolean isKeyExist(Object index) {
         return index != null;
     }
 
