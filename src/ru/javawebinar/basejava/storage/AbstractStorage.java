@@ -27,7 +27,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getKeyIfExist(String uuid) {
-        Object searchKey = getKey(uuid);
+        Object searchKey = getSearchKey(uuid);
         if (!isKeyExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
@@ -35,14 +35,14 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getKeyIfNotExist(String uuid) {
-        Object searchKey = getKey(uuid);
+        Object searchKey = getSearchKey(uuid);
         if (isKeyExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
         return searchKey;
     }
 
-    protected abstract Object getKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
     protected abstract boolean isKeyExist(Object searchKey);
 
