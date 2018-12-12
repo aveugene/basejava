@@ -7,12 +7,8 @@ import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
-        @Override
-        public int compare(Resume resume1, Resume resume2) {
-            return resume1.getUuid().compareTo(resume2.getUuid());
-        }
-    };
+    private static final Comparator<Resume> RESUME_COMPARATOR = (resume1, resume2) -> resume1.getUuid().compareTo(resume2.getUuid());
+
     @Override
     protected void fillDeletedElement(int index) {
         int numMoved = size - index - 1;
