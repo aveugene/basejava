@@ -6,7 +6,12 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
     protected Storage storage;
@@ -55,7 +60,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume2 = new Resume(UUID_2);
+        Resume newResume2 = new Resume(UUID_2, FULLNAME_2);
         storage.update(newResume2);
         assertSame(newResume2, storage.get(newResume2.getUuid()));
     }
@@ -67,10 +72,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumeArrayExpected = {RESUME_1, RESUME_2, RESUME_3};
-        Resume[] resumeArrayActual = storage.getAll();
-        assertEquals(resumeArrayExpected.length, resumeArrayActual.length);
-        assertArrayEquals(resumeArrayExpected, resumeArrayActual);
+        ArrayList<Resume> resumeListExpected = new ArrayList<Resume>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+        List<Resume> resumeListActual = storage.getAllSorted();
+        assertEquals(resumeListExpected.size(), resumeListActual.size());
+        assertEquals(resumeListExpected, resumeListActual);
     }
 
     @Test
