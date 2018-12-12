@@ -16,23 +16,19 @@ import static org.junit.Assert.assertSame;
 public abstract class AbstractStorageTest {
     protected Storage storage;
     private static final String UUID_1 = "uuid1";
-    private static final String FULLNAME_1 = "Will Turner";
     private static final Resume RESUME_1;
     private static final String UUID_2 = "uuid2";
-    private static final String FULLNAME_2 = "Bill Turner";
     private static final Resume RESUME_2;
     private static final String UUID_3 = "uuid3";
-    private static final String FULLNAME_3 = "Elizabeth Swan";
     private static final Resume RESUME_3;
     private static final String UUID_4 = "uuid4";
-    private static final String FULLNAME_4 = "John Swan";
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, FULLNAME_1);
-        RESUME_2 = new Resume(UUID_2, FULLNAME_2);
-        RESUME_3 = new Resume(UUID_3, FULLNAME_3);
-        RESUME_4 = new Resume(UUID_4, FULLNAME_4);
+        RESUME_1 = new Resume(UUID_1, "Will Turner");
+        RESUME_2 = new Resume(UUID_2, "Fill Turner");
+        RESUME_3 = new Resume(UUID_3, "Elizabeth Swan");
+        RESUME_4 = new Resume(UUID_4, "John Swan");
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -60,7 +56,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume2 = new Resume(UUID_2, FULLNAME_2);
+        Resume newResume2 = new Resume(UUID_2, "Bill Turner");
         storage.update(newResume2);
         assertSame(newResume2, storage.get(newResume2.getUuid()));
     }
