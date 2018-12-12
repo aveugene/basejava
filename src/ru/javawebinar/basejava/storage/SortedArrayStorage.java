@@ -3,8 +3,16 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+
+    private static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
+        @Override
+        public int compare(Resume resume1, Resume resume2) {
+            return resume1.getUuid().compareTo(resume2.getUuid());
+        }
+    };
     @Override
     protected void fillDeletedElement(int index) {
         int numMoved = size - index - 1;
@@ -22,6 +30,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        return Arrays.binarySearch(storage, 0, size, new Resume(uuid));
+        return Arrays.binarySearch(storage, 0, size, new Resume(uuid), RESUME_COMPARATOR);
     }
 }
