@@ -9,17 +9,31 @@ public class Resume {
 
     // Unique identifier
     private final String uuid;
+    private String fullName;
 
     public Resume() {
-        this(UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString(), "");
     }
 
-    public Resume(String uuid) {
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
+    }
+
+    public Resume(String uuid, String fullName) {
         this.uuid = uuid;
+        this.fullName = fullName;
     }
 
     public String getUuid() {
         return uuid;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     @Override
@@ -39,6 +53,6 @@ public class Resume {
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + " " + fullName;
     }
 }

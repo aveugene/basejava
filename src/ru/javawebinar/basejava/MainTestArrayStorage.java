@@ -13,15 +13,16 @@ public class MainTestArrayStorage {
     private static final Storage ARRAY_STORAGE = new MapStorage();
 
     public static void main(String[] args) {
-        Resume r1 = new Resume("uuid1");
-        Resume r2 = new Resume("uuid2");
-        Resume r3 = new Resume("uuid3");
+        Resume r1 = new Resume("uuid1", "Will Turner");
+        Resume r2 = new Resume("uuid2", "Bill Turner");
+        Resume r3 = new Resume("uuid3", "Elizabeth Swan");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r3);
         ARRAY_STORAGE.save(r2);
+        printAll();
 
-        Resume r4 = new Resume("uuid2");
+        Resume r4 = new Resume("uuid2", "John Swan");
         ARRAY_STORAGE.update(r4);
         System.out.println("Get r2: " + ARRAY_STORAGE.get(r2.getUuid()));
         System.out.println("Get r4: " + ARRAY_STORAGE.get(r4.getUuid()));
