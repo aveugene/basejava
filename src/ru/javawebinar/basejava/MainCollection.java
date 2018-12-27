@@ -17,10 +17,10 @@ public class MainCollection {
     private static Map<String, Resume> map;
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, "Name1");
+        RESUME_2 = new Resume(UUID_2, "Name2");
+        RESUME_3 = new Resume(UUID_3, "Name3");
+        RESUME_4 = new Resume(UUID_4, "Name4");
 
         collection = new ArrayList<>();
         collection.add(RESUME_1);
@@ -61,6 +61,7 @@ public class MainCollection {
         }
 
         List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        System.out.println(resumes);
         resumes.remove(1);
         System.out.println(resumes);
     }

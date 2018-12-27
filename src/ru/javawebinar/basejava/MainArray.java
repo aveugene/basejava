@@ -49,7 +49,6 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    System.out.println(arg1 + " " + arg2);
                     r = new Resume(arg1, arg2);
                     ARRAY_STORAGE.update(r);
                     printAll();

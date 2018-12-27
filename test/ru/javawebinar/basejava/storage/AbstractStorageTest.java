@@ -24,10 +24,10 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, "Will Turner");
-        RESUME_2 = new Resume(UUID_2, "Fill Turner");
-        RESUME_3 = new Resume(UUID_3, "Elizabeth Swan");
-        RESUME_4 = new Resume(UUID_4, "John Swan");
+        RESUME_1 = new Resume(UUID_1, "A Will Turner");
+        RESUME_2 = new Resume(UUID_2, "B Fill Turner");
+        RESUME_3 = new Resume(UUID_3, "C Elizabeth Swan");
+        RESUME_4 = new Resume(UUID_4, "D John Swan");
     }
 
     protected AbstractStorageTest(Storage storage) {
@@ -66,7 +66,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllSorted() {
         List<Resume> resumeListExpected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         List<Resume> resumeListActual = storage.getAllSorted();
         assertEquals(resumeListExpected.size(), resumeListActual.size());
