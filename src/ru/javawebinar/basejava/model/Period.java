@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Period {
     private LocalDate startDate;
@@ -17,10 +18,29 @@ public class Period {
     }
 
     public Period(LocalDate startDate, LocalDate endDate, String title, String text) {
+        Objects.requireNonNull(startDate, "StartDate must not be null");
+        Objects.requireNonNull(endDate, "EndDate must not be null");
+        Objects.requireNonNull(title, "Title must not be null");
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
         this.text = text;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Period period = (Period) o;
+        return startDate.equals(period.startDate) &&
+                endDate.equals(period.endDate) &&
+                title.equals(period.title) &&
+                Objects.equals(text, period.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, title, text);
     }
 
     @Override

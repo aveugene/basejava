@@ -26,32 +26,32 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected boolean isKeyExist(Resume searchKey) {
+    protected boolean isExist(Resume searchKey) {
         return searchKey != null;
     }
 
     @Override
-    protected void realUpdate(Resume resume, Resume searchKey) {
+    protected void updateResume(Resume resume, Resume searchKey) {
         storage.replace(resume.getUuid(), resume);
     }
 
     @Override
-    public List<Resume> getStorageCopyList() {
+    public List<Resume> getAllResumes() {
         return new ArrayList<>(storage.values());
     }
 
     @Override
-    protected void realSave(Resume resume, Resume searchKey) {
+    protected void saveResume(Resume resume, Resume searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void realDelete(Resume searchKey) {
+    protected void deleteResume(Resume searchKey) {
         storage.remove((searchKey).getUuid());
     }
 
     @Override
-    protected Resume realGet(Resume searchKey) {
+    protected Resume getResume(Resume searchKey) {
         return searchKey;
     }
 }

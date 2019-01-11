@@ -24,17 +24,17 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void realUpdate(Resume resume, Integer searchKey) {
+    protected void updateResume(Resume resume, Integer searchKey) {
         storage[searchKey] = resume;
     }
 
     @Override
-    public List<Resume> getStorageCopyList() {
+    public List<Resume> getAllResumes() {
         return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override
-    protected void realSave(Resume resume, Integer searchKey) {
+    protected void saveResume(Resume resume, Integer searchKey) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Storage overflow.", resume.getUuid());
         } else {
@@ -44,20 +44,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void realDelete(Integer searchKey) {
+    protected void deleteResume(Integer searchKey) {
         fillDeletedElement(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected Resume realGet(Integer searchKey) {
-        return storage[(Integer) searchKey];
+    protected Resume getResume(Integer searchKey) {
+        return storage[searchKey];
     }
 
     protected abstract Integer getSearchKey(String uuid);
 
-    protected boolean isKeyExist(Integer searchKey) {
+    protected boolean isExist(Integer searchKey) {
         return searchKey >= 0;
 
     }

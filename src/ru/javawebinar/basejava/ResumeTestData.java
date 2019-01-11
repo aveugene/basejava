@@ -2,33 +2,29 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ResumeTestData {
 
     public static void main(String[] args) {
 
-        Map<ContactType, String> contacts = new HashMap<>();
-        contacts.put(ContactType.PHONE, "+7(921) 855-0482");
-        contacts.put(ContactType.SKYPE, "grigoriy.kislin");
-        contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
-        contacts.put(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        contacts.put(ContactType.GITHUB, "https://github.com/gkislin");
-        contacts.put(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        contacts.put(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        Resume grigoriyKislinResume = new Resume("Григорий Кислин");
+        grigoriyKislinResume.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        grigoriyKislinResume.addContact(ContactType.SKYPE, "grigoriy.kislin");
+        grigoriyKislinResume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        grigoriyKislinResume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        grigoriyKislinResume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        grigoriyKislinResume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        grigoriyKislinResume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        Map<SectionType, Section> sections = new HashMap<>();
-        sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-        sections.put(SectionType.ACHIEVEMENT, new ListSection(
+        grigoriyKislinResume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        grigoriyKislinResume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        grigoriyKislinResume.addSection(SectionType.ACHIEVEMENT, new ListSection(
                 "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
                 "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
                 "Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
                 "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).",
                 "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."));
-        sections.put(SectionType.QUALIFICATIONS, new ListSection(
+        grigoriyKislinResume.addSection(SectionType.QUALIFICATIONS, new ListSection(
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite, MS SQL, HSQLDB",
@@ -60,7 +56,7 @@ public class ResumeTestData {
         Company wrike = new Company("https://www.wrike.com/", "Wrike", wrikePeriod);
         Company javaOnlineProjects = new Company("http://javaops.ru/", "Java Online Projects", javaOnlineProjectsPeriod);
 
-        sections.put(SectionType.EXPERIENCE, new CompaniesSection(alcatel, siemens, enkata, yota, luxoft, ritCenter, wrike, javaOnlineProjects));
+        grigoriyKislinResume.addSection(SectionType.EXPERIENCE, new CompaniesSection(alcatel, siemens, enkata, yota, luxoft, ritCenter, wrike, javaOnlineProjects));
 
         Period mftiTeachingPeriod = new Period(9, 1984, 6, 1987, "Закончил с отличием", "");
         Period spbNIEITMiOTeachingPeriod1 = new Period(9, 1987, 7, 1993, "Инженер (программист Fortran, C)", "");
@@ -77,9 +73,12 @@ public class ResumeTestData {
         Company luxoftTeaching = new Company("http://www.luxoft.ru/", "Luxoft (Deutsche Bank)", luxoftTeachingPeriod);
         Company courseraTeaching = new Company("https://www.coursera.org/course/progfun", "Coursera", courseraTeachingPeriod);
 
-        sections.put(SectionType.EDUCATION, new CompaniesSection(mftiTeaching, spbNIEITMiOTeaching, alcatelTeaching, siemensTeaching, luxoftTeaching, courseraTeaching));
+        grigoriyKislinResume.addSection(SectionType.EDUCATION, new CompaniesSection(mftiTeaching, spbNIEITMiOTeaching, alcatelTeaching, siemensTeaching, luxoftTeaching, courseraTeaching));
 
-        Resume grigoriyKislinResume = new Resume("Григорий Кислин", contacts, sections);
+//        System.out.println(grigoriyKislinResume.getContact(ContactType.SKYPE));
+//        grigoriyKislinResume.deleteContact(ContactType.HOMEPAGE);
+//        grigoriyKislinResume.getSection(SectionType.PERSONAL);
+//        grigoriyKislinResume.deleteSection(SectionType.QUALIFICATIONS);
 
         System.out.println(grigoriyKislinResume);
     }

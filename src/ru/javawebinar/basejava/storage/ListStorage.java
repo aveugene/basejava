@@ -27,32 +27,32 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected boolean isKeyExist(Integer searchKey) {
+    protected boolean isExist(Integer searchKey) {
         return searchKey != null;
     }
 
     @Override
-    protected void realUpdate(Resume resume, Integer searchKey) {
+    protected void updateResume(Resume resume, Integer searchKey) {
         storage.set(searchKey, resume);
     }
 
     @Override
-    public List<Resume> getStorageCopyList() {
+    public List<Resume> getAllResumes() {
         return new ArrayList<>(storage);
     }
 
     @Override
-    protected void realSave(Resume resume, Integer searchKey) {
+    protected void saveResume(Resume resume, Integer searchKey) {
         storage.add(resume);
     }
 
     @Override
-    protected void realDelete(Integer searchKey) {
+    protected void deleteResume(Integer searchKey) {
         storage.remove((int) searchKey);
     }
 
     @Override
-    protected Resume realGet(Integer searchKey) {
+    protected Resume getResume(Integer searchKey) {
         return storage.get(searchKey);
     }
 }

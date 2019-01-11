@@ -26,32 +26,32 @@ public class MapUuidStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected boolean isKeyExist(String searchKey) {
+    protected boolean isExist(String searchKey) {
         return storage.containsKey(searchKey);
     }
 
     @Override
-    protected void realUpdate(Resume resume, String searchKey) {
+    protected void updateResume(Resume resume, String searchKey) {
         storage.replace(searchKey, resume);
     }
 
     @Override
-    public List<Resume> getStorageCopyList() {
+    public List<Resume> getAllResumes() {
         return new ArrayList<>(storage.values());
     }
 
     @Override
-    protected void realSave(Resume resume, String searchKey) {
+    protected void saveResume(Resume resume, String searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void realDelete(String searchKey) {
+    protected void deleteResume(String searchKey) {
         storage.remove(searchKey);
     }
 
     @Override
-    protected Resume realGet(String searchKey) {
+    protected Resume getResume(String searchKey) {
         return storage.get(searchKey);
     }
 }
