@@ -32,31 +32,20 @@ public class MainFile {
         */
 
         File directory = new File(".");
-        int spacesIndent = 0;
-        printDirectory(directory, spacesIndent);
-
+        printDirectory(directory, "");
     }
 
-    private static void printDirectory(File directory, int spacesIndent) {
-        printFileElement(directory, spacesIndent, "/");
-
+    private static void printDirectory(File directory, String spacesIndent) {
         File[] list = directory.listFiles();
         if (list != null) {
             for (File file : list) {
                 if (file.isDirectory()) {
-                    printDirectory(file, spacesIndent + 1);
+                    System.out.println(spacesIndent + "/" + file.getName());
+                    printDirectory(file, spacesIndent + "  ");
                 } else {
-                    printFileElement(file, spacesIndent + 1, "+");
+                    System.out.println(spacesIndent + "+" + file.getName());;
                 }
             }
         }
-    }
-
-    private static void printFileElement(File file, int spacesIndent, String splitter) {
-        StringBuilder spaces = new StringBuilder("");
-        for (int i=0; i<spacesIndent; i++){
-            spaces.append("  ");
-        }
-        System.out.println(spaces + "    " + splitter + file.getName());
     }
 }
