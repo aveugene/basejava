@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
-import java.io.IOException;
 
 public class MainFile {
     public static void main(String[] args) {
@@ -33,30 +32,31 @@ public class MainFile {
         */
 
         File directory = new File(".");
-        listDirectory(directory);
+        int spacesIndent = 0;
+        printDirectory(directory, spacesIndent);
+
     }
 
-    private static void listDirectory(File directory) {
-        String[] list = directory.list();
+    private static void printDirectory(File directory, int spacesIndent) {
+        printFileElement(directory, spacesIndent, "/");
+
+        File[] list = directory.listFiles();
         if (list != null) {
-            for (String name : list) {
-                File newFile = new File(directory, name);
-                if (newFile.isDirectory()) {
-                    printPath(newFile);
-                    listDirectory(newFile);
+            for (File file : list) {
+                if (file.isDirectory()) {
+                    printDirectory(file, spacesIndent + 1);
                 } else {
-                    printPath(newFile);
+                    printFileElement(file, spacesIndent + 1, "+");
                 }
             }
         }
     }
 
-    private static void printPath(File newFile) {
-//        System.out.println(newFile.getPath());
-        try {
-            System.out.println(newFile.getCanonicalPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+    private static void printFileElement(File file, int spacesIndent, String splitter) {
+        StringBuilder spaces = new StringBuilder("");
+        for (int i=0; i<spacesIndent; i++){
+            spaces.append("  ");
         }
+        System.out.println(spaces + "    " + splitter + file.getName());
     }
 }
