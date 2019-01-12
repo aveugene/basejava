@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class ListSection implements Section {
-    private List<String> textList;
+    private final List<String> texts;
 
     public ListSection(String... texts){
         this(Arrays.asList(texts));
     }
 
-    public ListSection(List<String> textList) {
-        Objects.requireNonNull(textList, "List of texts must not be null");
-        this.textList = textList;
+    public ListSection(List<String> texts) {
+        Objects.requireNonNull(texts, "List of texts must not be null");
+        this.texts = texts;
     }
 
     @Override
@@ -21,18 +21,16 @@ public class ListSection implements Section {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ListSection that = (ListSection) o;
-        return textList.equals(that.textList);
+        return texts.equals(that.texts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(textList);
+        return Objects.hash(texts);
     }
 
     @Override
     public String toString() {
-        return "\nListSection{" +
-                "textList=" + textList +
-                "}\n";
+        return texts.toString();
     }
 }

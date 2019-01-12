@@ -7,24 +7,24 @@ public class Period {
     private LocalDate startDate;
     private LocalDate endDate;
     private String title;
-    private String text;
+    private String description;
 
-    public Period(int startMonth, int startYear, int endMonth, int endYear, String title, String text) {
-        this(LocalDate.of(startYear, startMonth, 1), LocalDate.of(endYear, endMonth, 1), title, text);
+    public Period(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
+        this(LocalDate.of(startYear, startMonth, 1), LocalDate.of(endYear, endMonth, 1), title, description);
     }
 
-    public Period(int startMonth, int startYear, String title, String text) {
-        this(LocalDate.of(startYear, startMonth, 1), LocalDate.now(), title, text);
+    public Period(int startMonth, int startYear, String title, String description) {
+        this(LocalDate.of(startYear, startMonth, 1), LocalDate.now(), title, description);
     }
 
-    public Period(LocalDate startDate, LocalDate endDate, String title, String text) {
+    public Period(LocalDate startDate, LocalDate endDate, String title, String description) {
         Objects.requireNonNull(startDate, "StartDate must not be null");
         Objects.requireNonNull(endDate, "EndDate must not be null");
         Objects.requireNonNull(title, "Title must not be null");
         this.startDate = startDate;
         this.endDate = endDate;
         this.title = title;
-        this.text = text;
+        this.description = description;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class Period {
         return startDate.equals(period.startDate) &&
                 endDate.equals(period.endDate) &&
                 title.equals(period.title) &&
-                Objects.equals(text, period.text);
+                Objects.equals(description, period.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, endDate, title, text);
+        return Objects.hash(startDate, endDate, title, description);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Period {
                 "startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", title='" + title + '\'' +
-                ", text='" + text + '\'' +
+                ", description='" + description + '\'' +
                 "}\n";
     }
 }

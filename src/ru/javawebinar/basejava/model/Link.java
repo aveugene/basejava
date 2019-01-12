@@ -3,8 +3,8 @@ package ru.javawebinar.basejava.model;
 import java.util.Objects;
 
 public class Link {
-    private String url;
-    private String name;
+    private final String url;
+    private final String name;
 
     public Link(String url, String name) {
         Objects.requireNonNull(name, "Name must not be null");
@@ -28,9 +28,6 @@ public class Link {
 
     @Override
     public String toString() {
-        return "Link{" +
-                "url='" + url + '\'' +
-                ", name='" + name + '\'' +
-                "}\n";
+        return "Link(" + name + ',' + url + ')';
     }
 }

@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class CompaniesSection implements Section{
-    private List<Company> companiesList;
+    private final List<Company> companies;
 
     public CompaniesSection(Company... companies) {
         this(Arrays.asList(companies));
     }
 
-    public CompaniesSection(List<Company> companiesList) {
-        Objects.requireNonNull(companiesList, "List of companies must not be null");
-        this.companiesList = companiesList;
+    public CompaniesSection(List<Company> companies) {
+        Objects.requireNonNull(companies, "List of companies must not be null");
+        this.companies = companies;
     }
 
     @Override
@@ -21,18 +21,16 @@ public class CompaniesSection implements Section{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CompaniesSection that = (CompaniesSection) o;
-        return companiesList.equals(that.companiesList);
+        return companies.equals(that.companies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(companiesList);
+        return Objects.hash(companies);
     }
 
     @Override
     public String toString() {
-        return "\nCompaniesSection{" +
-                "companiesList=" + companiesList +
-                "}\n";
+        return companies.toString();
     }
 }
