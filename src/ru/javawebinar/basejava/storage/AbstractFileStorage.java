@@ -5,6 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     public AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "Directory must not be null");
-        if (!directory.isDirectory()){
+        if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }
         if (!directory.canRead() || !directory.canWrite()) {
@@ -34,44 +35,80 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void updateResume(Resume resume, File file) {
-
+        try {
+            writeResume(resume, file);
+        } catch (IOException e) {
+            throw new StorageException("Failed to write to file", file.getName(), e);
+        }
     }
 
     @Override
     protected void saveResume(Resume resume, File file) {
         try {
             file.createNewFile();
-            writeResume(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Failed to create file", file.getName(), e);
         }
+        updateResume(resume, file);
     }
-
-    protected abstract void writeResume(Resume resume, File file) throws IOException;
-
 
     @Override
     protected void deleteResume(File file) {
-
+        if (!file.delete()) {
+            throw new StorageException("Failed to delete file", file.getName());
+        }
     }
 
     @Override
     protected Resume getResume(File file) {
-        return null;
+        try {
+            return readResume(file);
+        } catch (IOException e) {
+            throw new StorageException("Failed to read from file", file.getName(), e);
+        }
     }
+
 
     @Override
     protected List<Resume> getAllResumes() {
-        return null;
+        List<Resume> resumeList = new ArrayList<>();
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Failed to read directory", null);
+        }
+        for (File file : files) {
+            if (!file.isDirectory()) {
+                resumeList.add(getResume(file));
+            }
+        }
+        return resumeList;
     }
 
     @Override
     public void clear() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Failed to read directory", null);
+        }
+        for (File file : files) {
+            if (!file.isDirectory()) {
+                deleteResume(file);
+            }
+        }
 
     }
 
     @Override
     public int size() {
-        return 0;
+        String[] list = directory.list();
+        if (list == null) {
+            throw new StorageException("Failed to read directory", null);
+        }
+        return list.length;
     }
+
+    protected abstract void writeResume(Resume resume, File file) throws IOException;
+
+    protected abstract Resume readResume(File file) throws IOException;
+
 }
