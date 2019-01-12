@@ -1,7 +1,9 @@
 package ru.javawebinar.basejava.model;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Objects;
+import static ru.javawebinar.basejava.util.DateUtil.*;
 
 public class Period {
     private LocalDate startDate;
@@ -10,11 +12,11 @@ public class Period {
     private String description;
 
     public Period(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
-        this(LocalDate.of(startYear, startMonth, 1), LocalDate.of(endYear, endMonth, 1), title, description);
+        this(of(startYear, Month.of(startMonth)), of(endYear,Month.of(endMonth)), title, description);
     }
 
     public Period(int startMonth, int startYear, String title, String description) {
-        this(LocalDate.of(startYear, startMonth, 1), LocalDate.now(), title, description);
+        this(of(startYear, Month.of(startMonth)), now(), title, description);
     }
 
     public Period(LocalDate startDate, LocalDate endDate, String title, String description) {
