@@ -2,6 +2,9 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 public class ResumeTestData {
 
     public static void main(String[] args) {
@@ -58,13 +61,13 @@ public class ResumeTestData {
 
         grigoriyKislinResume.addSection(SectionType.EXPERIENCE, new CompaniesSection(alcatel, siemens, enkata, yota, luxoft, ritCenter, wrike, javaOnlineProjects));
 
-        Period mftiTeachingPeriod = new Period(9, 1984, 6, 1987, "Закончил с отличием", "");
-        Period spbNIEITMiOTeachingPeriod1 = new Period(9, 1987, 7, 1993, "Инженер (программист Fortran, C)", "");
-        Period spbNIEITMiOTeachingPeriod2 = new Period(9, 1993, 7, 1996, "Аспирантура (программист С, С++)", "");
-        Period alcatelTeachingPeriod = new Period(9, 1997, 3, 1998, "6 месяцев обучения цифровым телефонным сетям (Москва)", "");
-        Period siemensTeachingPeriod = new Period(1, 2005, 4, 2005, "3 месяца обучения мобильным IN сетям (Берлин)", "");
-        Period luxoftTeachingPeriod = new Period(3, 2011, 4, 2011, "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", "");
-        Period courseraTeachingPeriod = new Period(3, 2013, 5, 2013, "\"Functional Programming Principles in Scala\" by Martin Odersky", "");
+        Period mftiTeachingPeriod = new Period(9, 1984, 6, 1987, "Закончил с отличием", null);
+        Period spbNIEITMiOTeachingPeriod1 = new Period(9, 1987, 7, 1993, "Инженер (программист Fortran, C)", null);
+        Period spbNIEITMiOTeachingPeriod2 = new Period(9, 1993, 7, 1996, "Аспирантура (программист С, С++)", null);
+        Period alcatelTeachingPeriod = new Period(9, 1997, 3, 1998, "6 месяцев обучения цифровым телефонным сетям (Москва)", null);
+        Period siemensTeachingPeriod = new Period(1, 2005, 4, 2005, "3 месяца обучения мобильным IN сетям (Берлин)", null);
+        Period luxoftTeachingPeriod = new Period(3, 2011, 4, 2011, "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", null);
+        Period courseraTeachingPeriod = new Period(3, 2013, 5, 2013, "\"Functional Programming Principles in Scala\" by Martin Odersky", null);
 
         Company mftiTeaching = new Company("http://www.school.mipt.ru/", "Заочная физико-техническая школа при МФТИ", mftiTeachingPeriod);
         Company spbNIEITMiOTeaching = new Company("http://www.ifmo.ru/", "Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики", spbNIEITMiOTeachingPeriod1, spbNIEITMiOTeachingPeriod2);
@@ -80,6 +83,72 @@ public class ResumeTestData {
 //        grigoriyKislinResume.getSection(SectionType.PERSONAL);
 //        grigoriyKislinResume.deleteSection(SectionType.QUALIFICATIONS);
 
-        System.out.println(grigoriyKislinResume);
+//        System.out.println(grigoriyKislinResume);
+
+        System.out.println(createResume(null, "test testov"));
     }
+
+    public static Resume createResume(String uuid, String fullName) {
+        Random random = new Random();
+        Resume resume;
+        if (uuid == null) {
+            resume = new Resume(fullName);
+        } else {
+            resume = new Resume(uuid, fullName);
+        }
+        String name = randomString(8, ALPHABET);
+        resume.addContact(ContactType.PHONE, "+7(9" + random.nextInt(99) + ") " + random.nextInt(999) + "-" + random.nextInt(9999));
+        resume.addContact(ContactType.SKYPE, name);
+        resume.addContact(ContactType.EMAIL, name + "@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/" + name);
+        resume.addContact(ContactType.GITHUB, "https://github.com/" + name);
+        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/" + name);
+        resume.addContact(ContactType.HOMEPAGE, "http://" + name + "/");
+
+        resume.addSection(SectionType.OBJECTIVE, new TextSection(randomString(80, ALPHABET_RUS)));
+        resume.addSection(SectionType.PERSONAL, new TextSection(randomString(80, ALPHABET_RUS)));
+        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+                randomString(random.nextInt(99), ALPHABET_RUS),
+                randomString(random.nextInt(99), ALPHABET_RUS)
+        ));
+        resume.addSection(
+                SectionType.QUALIFICATIONS, new ListSection(
+                        randomString(random.nextInt(99), ALPHABET_RUS),
+                        randomString(random.nextInt(99), ALPHABET_RUS)
+                ));
+        resume.addSection(SectionType.EXPERIENCE, new CompaniesSection(
+                new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", " + randomString(random.nextInt(9), ALPHABET)+ ",
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                ),
+                new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", " + randomString(random.nextInt(9), ALPHABET)+ ",
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                )
+        ));
+        resume.addSection(SectionType.EDUCATION, new CompaniesSection(
+                new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", " + randomString(random.nextInt(9), ALPHABET)+ ",
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                ),
+                new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", " + randomString(random.nextInt(9), ALPHABET)+ ",
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
+                        new Period(random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11)+1, 1980 + random.nextInt(39), randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                )
+        ));
+
+        return resume;
+    }
+
+    private static final String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+    private static final String ALPHABET_RUS = "йцукенгшщзхъэждлорпавыфячсмитьбюЦУКЕНГЗХЭЖДЛОРПАВЧСМИТБ.             ";
+    private static final SecureRandom RANDOM = new SecureRandom();
+
+    public static String randomString(int count, String alphabet) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; ++i) {
+            sb.append(alphabet.charAt(RANDOM.nextInt(alphabet.length())));
+        }
+        return sb.toString();
+    }
+
 }
