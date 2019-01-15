@@ -2,7 +2,9 @@ package ru.javawebinar.basejava.model;
 
 import java.util.Objects;
 
-public class TextSection implements Section {
+public class TextSection extends Section {
+    private static final long serialVersionUID = 1L;
+
     private final String content;
 
     public TextSection(String content) {

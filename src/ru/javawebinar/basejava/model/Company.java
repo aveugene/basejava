@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -8,7 +9,9 @@ import java.util.Objects;
 
 import static ru.javawebinar.basejava.util.DateUtil.*;
 
-public class Company {
+public class Company implements Serializable{
+    private static final long serialVersionUID = 1L;
+
     private Link websiteLink;
     private List<Period> periods;
 
@@ -45,7 +48,9 @@ public class Company {
                 "}\n";
     }
 
-    public static class Period {
+    public static class Period implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private LocalDate startDate;
         private LocalDate endDate;
         private String title;

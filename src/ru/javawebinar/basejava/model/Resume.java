@@ -1,5 +1,6 @@
 package ru.javawebinar.basejava.model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -7,7 +8,8 @@ import java.util.UUID;
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUID = 1L;
 
     // Unique identifier
     private final String uuid;
@@ -72,7 +74,8 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid + '(' + fullName + ")\n" + contacts + "\n" + sections;
+//        return uuid + '(' + fullName + ")\n" + contacts + "\n" + sections;
+        return uuid + '(' + fullName + ')';
     }
 
     @Override
