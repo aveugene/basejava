@@ -3,7 +3,9 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,15 +14,21 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
+    private Serialization serialization;
 
-    public AbstractPathStorage(String dir) {
+    public void setSerialization(Serialization serialization) {
+        this.serialization = serialization;
+    }
+
+    public PathStorage(String dir, Serialization serialization) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "Directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directorey or not writable");
         }
+        this.serialization = serialization;
     }
 
     @Override
@@ -36,7 +44,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateResume(Resume resume, Path path) {
         try {
-            writeResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            serialization.writeResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Failed to write to file", getFileName(path), e);
         }
@@ -64,7 +72,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getResume(Path path) {
         try {
-            return readResume(new BufferedInputStream(Files.newInputStream(path)));
+            return serialization.readResume(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Failed to read from file", getFileName(path), e);
         }
@@ -97,10 +105,6 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             throw new StorageException("Failed to count files in directory", e);
         }
     }
-
-    protected abstract void writeResume(Resume resume, OutputStream outputStream) throws IOException;
-
-    protected abstract Resume readResume(InputStream inputStream) throws IOException;
 
     private String getFileName(Path path) {
         return path.getFileName().toString();

@@ -8,10 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private File directory;
+    private Serialization serialization;
 
-    public AbstractFileStorage(File directory) {
+    public void setSerialization(Serialization serialization) {
+        this.serialization = serialization;
+    }
+
+    public FileStorage(File directory, Serialization serialization) {
         Objects.requireNonNull(directory, "Directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -20,6 +25,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.serialization = serialization;
     }
 
     @Override
@@ -35,7 +41,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateResume(Resume resume, File file) {
         try {
-            writeResume(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            serialization.writeResume(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Failed to write to file", file.getName(), e);
         }
@@ -61,7 +67,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected Resume getResume(File file) {
         try {
-            return readResume(new BufferedInputStream(new FileInputStream(file)));
+            return serialization.readResume(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             throw new StorageException("Failed to read from file", file.getName(), e);
         }
@@ -105,9 +111,4 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
         return list.length;
     }
-
-    protected abstract void writeResume(Resume resume, OutputStream outputStream) throws IOException;
-
-    protected abstract Resume readResume(InputStream inputStream) throws IOException;
-
 }
