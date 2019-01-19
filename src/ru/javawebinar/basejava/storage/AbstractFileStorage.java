@@ -72,7 +72,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> getAllResumes() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("Failed to read directory", null);
+            throw new StorageException("Failed to read directory");
         }
         List<Resume> resumeList = new ArrayList<>(files.length);
         for (File file : files) {
@@ -87,7 +87,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public void clear() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("Failed to read directory", null);
+            throw new StorageException("Failed to read directory");
         }
         for (File file : files) {
             if (!file.isDirectory()) {
@@ -101,7 +101,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] list = directory.list();
         if (list == null) {
-            throw new StorageException("Failed to read directory", null);
+            throw new StorageException("Failed to read directory");
         }
         return list.length;
     }
