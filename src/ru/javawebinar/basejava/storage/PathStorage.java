@@ -2,7 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
-import ru.javawebinar.basejava.storage.serialization.Serialization;
+import ru.javawebinar.basejava.storage.serializer.StreamSerializer;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -17,19 +17,19 @@ import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
-    private Serialization serialization;
+    private StreamSerializer streamSerializer;
 
-    public void setSerialization(Serialization serialization) {
-        this.serialization = serialization;
+    public void setStreamSerializer(StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
     }
 
-    public PathStorage(String dir, Serialization serialization) {
+    public PathStorage(String dir, StreamSerializer streamSerializer) {
+        Objects.requireNonNull(dir, "Directory must not be null");
         directory = Paths.get(dir);
-        Objects.requireNonNull(directory, "Directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directorey or not writable");
         }
-        this.serialization = serialization;
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void updateResume(Resume resume, Path path) {
         try {
-            serialization.writeResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            streamSerializer.writeResume(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Failed to write to file", getFileName(path), e);
         }
@@ -56,7 +56,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Failed to create file", getFileName(path), e);
+            throw new StorageException("Failed to create file " + path, getFileName(path), e);
         }
         updateResume(resume, path);
     }
@@ -73,7 +73,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume getResume(Path path) {
         try {
-            return serialization.readResume(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializer.readResume(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Failed to read from file", getFileName(path), e);
         }
@@ -81,37 +81,28 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getAllResumes() {
-        try {
-            return getFilesList().map(this::getResume).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Failed to get all resumes", e);
-        }
+        return getFilesList().map(this::getResume).collect(Collectors.toList());
     }
 
     @Override
     public void clear() {
-        try {
-            getFilesList().forEach(this::deleteResume);
-        } catch (IOException e) {
-            throw new StorageException("Failed to clear all resumes", e);
-        }
-
+        getFilesList().forEach(this::deleteResume);
     }
 
     @Override
     public int size() {
-        try {
-            return (int) getFilesList().count();
-        } catch (IOException e) {
-            throw new StorageException("Failed to count files in directory", e);
-        }
+        return (int) getFilesList().count();
     }
 
     private String getFileName(Path path) {
         return path.getFileName().toString();
     }
 
-    private Stream<Path> getFilesList() throws IOException {
-        return Files.list(directory);
+    private Stream<Path> getFilesList() {
+        try {
+            return Files.list(directory);
+        } catch (IOException e) {
+            throw new StorageException("Failed to read directory", e);
+        }
     }
 }

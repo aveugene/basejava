@@ -1,6 +1,9 @@
 package ru.javawebinar.basejava;
 
 import java.io.File;
+import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class MainFile {
     public static void main(String[] args) {
@@ -33,6 +36,25 @@ public class MainFile {
 
         File directory = new File(".");
         printDirectory(directory, "");
+
+
+
+
+
+        Optional<Integer> sum = Stream.of(1, 2, 3, 4, 5)
+                .reduce((acc, x) -> acc + x);
+        System.out.println(sum.get());
+
+        int product = IntStream.range(0, 10)
+                .peek(x -> System.out.format("before filter: %d%n", x))
+                .filter(x -> x++ % 4 == 0)
+                .peek(x -> System.out.format("after filter: %d%n", x))
+                .reduce((acc, x) -> acc * x)
+                .getAsInt();
+        System.out.println(product);
+
+
+
     }
 
     private static void printDirectory(File directory, String spacesIndent) {
