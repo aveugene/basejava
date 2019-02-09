@@ -35,6 +35,14 @@ public class Company implements Serializable{
         this.periods = periods;
     }
 
+    public Link getWebsiteLink() {
+        return websiteLink;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,11 +79,11 @@ public class Company implements Serializable{
         public Period() {
         }
 
-        public Period(int startMonth, int startYear, int endMonth, int endYear, String title, String description) {
+        public Period(int startYear, int startMonth, int endYear, int endMonth, String title, String description) {
             this(of(startYear, Month.of(startMonth)), of(endYear,Month.of(endMonth)), title, description);
         }
 
-        public Period(int startMonth, int startYear, String title, String description) {
+        public Period(int startYear, int startMonth, String title, String description) {
             this(of(startYear, Month.of(startMonth)), NOW, title, description);
         }
 
@@ -87,6 +95,22 @@ public class Company implements Serializable{
             this.endDate = endDate;
             this.title = title;
             this.description = description;
+        }
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
         }
 
         @Override
