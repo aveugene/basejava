@@ -52,8 +52,42 @@ public class MainConcurrency {
 //        Thread.sleep(500);
         System.out.println(counter);
 
-        //  Deadlock :
-        final BankAccount first = new BankAccount("first", 1000);
+
+
+        // deadlock from video:
+        final String lock1 = "lock1";
+        final String lock2 = "lock2";
+        deadLock(lock1, lock2);
+        // need to sleep to start this method
+        deadLock(lock2, lock1);
+
+    }
+
+    private static void deadLock(Object lock1, Object lock2) {
+        new Thread(() -> {
+            System.out.println("Waiting " + lock1);
+            synchronized (lock1) {
+                System.out.println("Holding " + lock1);
+
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Waiting " + lock2);
+                synchronized (lock2) {
+                    System.out.println("Holding " + lock2);
+                }
+            }
+        }).start();
+
+    }
+
+
+
+
+        //  My deadlock realisation:
+ /*       final BankAccount first = new BankAccount("first", 1000);
         final BankAccount second = new BankAccount("second", 1000);
 
         new Thread(new synchedWithdraw(first, second), "Поток 1").start();
@@ -111,7 +145,7 @@ public class MainConcurrency {
             }
             System.out.println(Thread.currentThread().getName() + " освободил ключ от " + first.name);
         }
-    }
+    }*/
 
     //    private static synchronized void inc() {
     private synchronized void inc() {
