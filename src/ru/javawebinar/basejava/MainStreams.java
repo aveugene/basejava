@@ -3,8 +3,8 @@ package ru.javawebinar.basejava;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MainStreams {
     public static void main(String[] args) {
@@ -21,23 +21,33 @@ public class MainStreams {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::intValue).sum();
-        return integers.stream()
-                .flatMap(x -> {
-                    switch (sum % 2) {
-                        case 0:
-                            if (x % 2 == 1) {
-                                return Stream.of(x);
-                            }
-                            return Stream.empty();
-                        case 1:
-                            if (x % 2 == 0) {
-                                return Stream.of(x);
-                            }
-                            return Stream.empty();
-                        default:
-                            return Stream.empty();
-                    }
-                })
-                .collect(Collectors.toList());
+        Map<Boolean, List<Integer>> collect = integers.stream().collect(Collectors.partitioningBy(x -> x % 2 == 0));
+        if ( sum % 2 == 1 ) {
+            return collect.get(true);
+        } else {
+            return collect.get(false);
+        }
+
+        //        return integers.stream()
+//                .flatMap(x -> {
+//                    switch (sum % 2) {
+//                        case 0:
+//                            if (x % 2 == 1) {
+//                                return Stream.of(x);
+//                            }
+//                            return Stream.empty();
+//                        case 1:
+//                            if (x % 2 == 0) {
+//                                return Stream.of(x);
+//                            }
+//                            return Stream.empty();
+//                        default:
+//                            return Stream.empty();
+//                    }
+//                })
+//                .collect(Collectors.toList());
+
+
+
     }
 }
