@@ -1,12 +1,28 @@
 package ru.javawebinar.basejava;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class MainConcurrency {
     private static final int THREADS_NUMBER = 10_000;
     private static int counter;
-    private static final Object LOCK = new Object();
+    private static AtomicInteger atomicInteger = new AtomicInteger();
+//    private static final Object LOCK = new Object();
+//    private static final Lock lock = new ReentrantLock();
+    private static final ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
+    private static final Lock WRITE_LOCK = reentrantReadWriteLock.writeLock();
+    private static final Lock READ_LOCK = reentrantReadWriteLock.readLock();
+
+    private static final ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat();
+        }
+    };
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println(Thread.currentThread().getName());
@@ -30,17 +46,36 @@ public class MainConcurrency {
         System.out.println(thread0.getState());
 
         final MainConcurrency mainConcurrency = new MainConcurrency();
-        List<Thread> threads = new ArrayList<>(THREADS_NUMBER);
+        CountDownLatch latch = new CountDownLatch(THREADS_NUMBER);
+//        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+//        CompletionService completionService = new ExecutorCompletionService(executorService);
+
+//        List<Thread> threads = new ArrayList<>(THREADS_NUMBER);
 
         for (int i = 0; i < THREADS_NUMBER; i++) {
-            Thread thread = new Thread(() -> {
+            Future<Integer> future = executorService.submit(() ->
+
+//            Thread thread = new Thread(() ->
+            {
                 for (int j = 0; j < 100; j++) {
                     mainConcurrency.inc();
+                    System.out.println(threadLocal.get().format(new Date()));
                 }
+                latch.countDown();
+                return 5;
             });
-            thread.start();
-            threads.add(thread);
+            /*System.out.println(future.isDone());
+            try {
+                System.out.println(future.get());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }*/
+//            thread.start();
+//            threads.add(thread);
+
         }
+        /*
         threads.forEach(t -> {
             try {
                 t.join();
@@ -49,9 +84,12 @@ public class MainConcurrency {
             }
         });
 
+*/
 //        Thread.sleep(500);
-        System.out.println(counter);
-
+        latch.await(10, TimeUnit.SECONDS);
+        executorService.shutdown();
+//        System.out.println(counter);
+        System.out.println(atomicInteger);
 
 
         // deadlock from video:
@@ -84,9 +122,7 @@ public class MainConcurrency {
     }
 
 
-
-
-        //  My deadlock realisation:
+    //  My deadlock realisation:
  /*       final BankAccount first = new BankAccount("first", 1000);
         final BankAccount second = new BankAccount("second", 1000);
 
@@ -148,9 +184,15 @@ public class MainConcurrency {
     }*/
 
     //    private static synchronized void inc() {
-    private synchronized void inc() {
+    private void inc() {
+        atomicInteger.incrementAndGet();
 //            synchronized (this) {
-        counter++;
+//        lock.lock();
+//        try {
+//            counter++;
+//        } finally {
+//            lock.unlock();
+//        }
 //            }
     }
 }
