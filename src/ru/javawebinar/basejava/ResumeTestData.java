@@ -96,6 +96,7 @@ public class ResumeTestData {
         } else {
             resume = new Resume(uuid, fullName);
         }
+/*
         String name = randomString(8, ALPHABET);
         resume.addContact(ContactType.PHONE, "+7(9" + random.nextInt(99) + ") " + random.nextInt(999) + "-" + random.nextInt(9999));
         resume.addContact(ContactType.SKYPE, name);
@@ -135,6 +136,7 @@ public class ResumeTestData {
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
                 )
         ));
+*/
 
         return resume;
     }
