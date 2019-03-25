@@ -1,6 +1,5 @@
 package ru.javawebinar.basejava.storage;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.SqlHelper;
@@ -27,9 +26,7 @@ public class SqlStorage implements Storage {
         sqlHelper.queryExecute("INSERT INTO resume (uuid, full_name) VALUES (?, ?)", preparedStatement -> {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.setString(2, resume.getFullName());
-            if (preparedStatement.executeUpdate() == 0){
-                throw new ExistStorageException(resume.getUuid());
-            };
+            preparedStatement.execute();
             return null;
         });
     }
@@ -71,7 +68,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.queryExecute("SELECT * FROM resume r", preparedStatement -> {
+        return sqlHelper.queryExecute("SELECT * FROM resume r ORDER BY full_name,uuid", preparedStatement -> {
             ResultSet rs = preparedStatement.executeQuery();
             List<Resume> resumeList = new ArrayList<>();
             while (rs.next()){
@@ -85,11 +82,7 @@ public class SqlStorage implements Storage {
     public int size() {
         return sqlHelper.queryExecute("SELECT COUNT(*) FROM resume", preparedStatement -> {
             ResultSet rs = preparedStatement.executeQuery();
-            int count = 0;
-            while(rs.next()) {
-                count = rs.getInt("count");
-            }
-            return count;
+            return rs.next() ? rs.getInt("count") : 0;
         });
     }
 }
