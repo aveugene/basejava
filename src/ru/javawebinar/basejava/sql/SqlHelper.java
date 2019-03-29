@@ -1,8 +1,5 @@
 package ru.javawebinar.basejava.sql;
 
-import ru.javawebinar.basejava.exception.ExistStorageException;
-import ru.javawebinar.basejava.exception.StorageException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -18,16 +15,13 @@ public class SqlHelper {
         queryExecute(query, PreparedStatement::execute);
     }
 
-    public <T> T queryExecute(String query, SqlSerializer<T> sqlSerializer) {
+    public <T> T queryExecute(String query, SqlExecutor<T> sqlExecutor) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(query);
         ) {
-            return sqlSerializer.paramExecute(ps);
+            return sqlExecutor.execute(ps);
         } catch (SQLException e) {
-            if (e.getSQLState().equals("23505")) {
-                throw new ExistStorageException(null);
-            }
-            throw new StorageException(e);
+            throw ExceptionUtil.convertException(e);
         }
     }
 }
