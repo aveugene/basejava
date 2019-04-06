@@ -96,7 +96,7 @@ public class ResumeTestData {
         } else {
             resume = new Resume(uuid, fullName);
         }
-/*
+
         String name = randomString(8, ALPHABET);
         resume.addContact(ContactType.PHONE, "+7(9" + random.nextInt(99) + ") " + random.nextInt(999) + "-" + random.nextInt(9999));
         resume.addContact(ContactType.SKYPE, name);
@@ -105,7 +105,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.GITHUB, "https://github.com/" + name);
         resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/" + name);
         resume.addContact(ContactType.HOMEPAGE, "http://" + name + "/");
-
+/*
         resume.addSection(SectionType.OBJECTIVE, new TextSection(randomString(80, ALPHABET_RUS)));
         resume.addSection(SectionType.PERSONAL, new TextSection(randomString(80, ALPHABET_RUS)));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
