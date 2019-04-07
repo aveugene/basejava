@@ -39,9 +39,11 @@ public class SqlStorage implements Storage {
             try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
                 preparedStatement.setString(1, resume.getFullName());
                 preparedStatement.setString(2, resume.getUuid());
-                if (preparedStatement.executeUpdate() == 0) throw new NotExistStorageException(resume.getUuid());
+                if (preparedStatement.executeUpdate() == 0) {
+                    throw new NotExistStorageException(resume.getUuid());
+                }
             }
-            deleteContacts(resume);
+            deleteContacts(resume, connection);
             insertContacts(resume, connection);
             return null;
         });
@@ -109,7 +111,6 @@ public class SqlStorage implements Storage {
     private void insertContacts(Resume resume, Connection connection) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?, ?, ?)")) {
             for (Map.Entry<ContactType, String> entry : resume.getContacts().entrySet()) {
-                System.out.println();
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.setString(2, entry.getKey().name());
                 preparedStatement.setString(3, entry.getValue());
@@ -119,12 +120,11 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteContacts(Resume resume) {
-        sqlHelper.queryExecute("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
+    private void deleteContacts(Resume resume, Connection connection) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM contact WHERE resume_uuid=?")) {
             preparedStatement.setString(1, resume.getUuid());
             preparedStatement.execute();
-            return null;
-        });
+        }
     }
 
     private void addContact(ResultSet resultSet, Resume resume) throws SQLException {
