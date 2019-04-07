@@ -105,7 +105,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.GITHUB, "https://github.com/" + name);
         resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/" + name);
         resume.addContact(ContactType.HOMEPAGE, "http://" + name + "/");
-/*
+
         resume.addSection(SectionType.OBJECTIVE, new TextSection(randomString(80, ALPHABET_RUS)));
         resume.addSection(SectionType.PERSONAL, new TextSection(randomString(80, ALPHABET_RUS)));
         resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
@@ -117,6 +117,7 @@ public class ResumeTestData {
                         randomString(random.nextInt(99), ALPHABET_RUS),
                         randomString(random.nextInt(99), ALPHABET_RUS)
                 ));
+/*
         resume.addSection(SectionType.EXPERIENCE, new CompaniesSection(
                 new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
