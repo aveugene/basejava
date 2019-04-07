@@ -154,12 +154,17 @@ public class SqlStorage implements Storage {
                 preparedStatement.setString(2, entry.getKey().name());
                 SectionType type = entry.getKey();
                 AbstractSection section = entry.getValue();
-                if (type.equals(SectionType.PERSONAL) || type.equals(SectionType.OBJECTIVE)) {
-                    TextSection textSection = (TextSection) section;
-                    preparedStatement.setString(3, textSection.getContent());
-                } else {
-                    ListSection listSection = (ListSection) section;
-                    preparedStatement.setString(3, String.join("\n", listSection.getTexts()));
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        TextSection textSection = (TextSection) section;
+                        preparedStatement.setString(3, textSection.getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        ListSection listSection = (ListSection) section;
+                        preparedStatement.setString(3, String.join("\n", listSection.getTexts()));
+                        break;
                 }
                 preparedStatement.addBatch();
             }
@@ -186,11 +191,16 @@ public class SqlStorage implements Storage {
         String value = resultSet.getString("value");
         if (value != null) {
             SectionType type = SectionType.valueOf(resultSet.getString("type"));
-            if (type.equals(SectionType.PERSONAL) || type.equals(SectionType.OBJECTIVE)) {
-                resume.addSection(type, new TextSection(value));
-            } else {
-                List<String> valueSplitted = Arrays.asList(value.split("\n"));
-                resume.addSection(type, new ListSection(valueSplitted));
+            switch (type) {
+                case PERSONAL:
+                case OBJECTIVE:
+                    resume.addSection(type, new TextSection(value));
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATIONS:
+                    List<String> valueSplitted = Arrays.asList(value.split("\n"));
+                    resume.addSection(type, new ListSection(valueSplitted));
+                    break;
             }
         }
     }
