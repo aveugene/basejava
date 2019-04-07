@@ -77,24 +77,25 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return sqlHelper.queryExecute("" +
-                        "   SELECT * FROM resume r " +
-                        "LEFT JOIN contact c ON r.uuid = c.resume_uuid " +
-                        " ORDER BY full_name,uuid",
-                preparedStatement -> {
-                    ResultSet resultSet = preparedStatement.executeQuery();
-                    Map<String, Resume> resumeMap = new LinkedHashMap<>();
-                    while (resultSet.next()) {
-                        String uuid = resultSet.getString("uuid");
-                        Resume resume = resumeMap.get(uuid);
-                        if (resume == null) {
-                            resume = new Resume(uuid, resultSet.getString("full_name"));
-                            resumeMap.put(uuid, resume);
-                        }
-                        addContact(resultSet, resume);
-                    }
-                    return new ArrayList<>(resumeMap.values());
-                });
+        return sqlHelper.transactionalExecute(connection -> {
+            Map<String, Resume> resumeMap = new LinkedHashMap<>();
+            try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM resume r ORDER BY full_name,uuid")) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String uuid = resultSet.getString("uuid");
+                    Resume resume = new Resume(uuid, resultSet.getString("full_name"));
+                    resumeMap.put(uuid, resume);
+                }
+            }
+            try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM contact")) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    Resume resume = resumeMap.get(resultSet.getString("resume_uuid"));
+                    addContact(resultSet, resume);
+                }
+            }
+            return new ArrayList<>(resumeMap.values());
+        });
     }
 
     @Override
