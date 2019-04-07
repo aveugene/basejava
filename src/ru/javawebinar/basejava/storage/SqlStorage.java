@@ -59,7 +59,9 @@ public class SqlStorage implements Storage {
                 preparedStatement -> {
                     preparedStatement.setString(1, uuid);
                     ResultSet resultSet = preparedStatement.executeQuery();
-                    if (!resultSet.next()) throw new NotExistStorageException(uuid);
+                    if (!resultSet.next()) {
+                        throw new NotExistStorageException(uuid);
+                    }
                     Resume resume = new Resume(uuid, resultSet.getString("full_name"));
                     do {
                         addContact(resultSet, resume);
@@ -72,7 +74,9 @@ public class SqlStorage implements Storage {
     public void delete(String uuid) {
         sqlHelper.<Void>queryExecute("DELETE FROM resume r WHERE r.uuid = ?", preparedStatement -> {
             preparedStatement.setString(1, uuid);
-            if (preparedStatement.executeUpdate() == 0) throw new NotExistStorageException(uuid);
+            if (preparedStatement.executeUpdate() == 0) {
+                throw new NotExistStorageException(uuid);
+            }
             return null;
         });
     }
