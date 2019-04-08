@@ -3,9 +3,13 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.sql.SqlHelper;
+import ru.javawebinar.basejava.util.JsonParser;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
@@ -44,7 +48,7 @@ public class SqlStorage implements Storage {
             try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
                 preparedStatement.setString(1, resume.getFullName());
                 preparedStatement.setString(2, resume.getUuid());
-                if (preparedStatement.executeUpdate() == 0) {
+                if (preparedStatement.executeUpdate() != 1) {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
@@ -148,24 +152,12 @@ public class SqlStorage implements Storage {
     }
 
     private void insertSections(Resume resume, Connection connection) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO section (resume_uuid, type, value) VALUES (?, ?, ?)")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO section (resume_uuid, type, content) VALUES (?, ?, ?)")) {
             for (Map.Entry<SectionType, AbstractSection> entry : resume.getSections().entrySet()) {
                 preparedStatement.setString(1, resume.getUuid());
                 preparedStatement.setString(2, entry.getKey().name());
-                SectionType type = entry.getKey();
                 AbstractSection section = entry.getValue();
-                switch (type) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        TextSection textSection = (TextSection) section;
-                        preparedStatement.setString(3, textSection.getContent());
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        ListSection listSection = (ListSection) section;
-                        preparedStatement.setString(3, String.join("\n", listSection.getTexts()));
-                        break;
-                }
+                preparedStatement.setString(3, JsonParser.write(section, AbstractSection.class));
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
@@ -188,20 +180,10 @@ public class SqlStorage implements Storage {
     }
 
     private void addSection(ResultSet resultSet, Resume resume) throws SQLException {
-        String value = resultSet.getString("value");
-        if (value != null) {
+        String content = resultSet.getString("content");
+        if (content != null) {
             SectionType type = SectionType.valueOf(resultSet.getString("type"));
-            switch (type) {
-                case PERSONAL:
-                case OBJECTIVE:
-                    resume.addSection(type, new TextSection(value));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    List<String> valueSplitted = Arrays.asList(value.split("\n"));
-                    resume.addSection(type, new ListSection(valueSplitted));
-                    break;
-            }
+            resume.addSection(type, JsonParser.read(content, AbstractSection.class));
         }
     }
 
