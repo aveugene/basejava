@@ -1,4 +1,6 @@
 <%@ page import="ru.javawebinar.basejava.model.ContactType" %>
+<%@ page import="ru.javawebinar.basejava.model.ListSection" %>
+<%@ page import="ru.javawebinar.basejava.model.SectionType" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -24,10 +26,22 @@
                 <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
             </dl>
         </c:forEach>
+        <hr>
         <h3>Секции:</h3>
-        <input type="text" name="section" size=30 value="1"><br/>
-        <input type="text" name="section" size=30 value="2"><br/>
-        <input type="text" name="section" size=30 value="3"><br/>
+        <c:forEach var="type" items="<%=SectionType.values()%>">
+            <jsp:useBean id="type" type="ru.javawebinar.basejava.model.SectionType"/>
+
+            <p>${type.title}</p>
+            <c:choose>
+                <c:when test="${type == 'OBJECTIVE' || type == 'PERSONAL'}">
+                    <input type="text" name="${type.name()}" size=100 value="<%=resume.getSection(type)%>">
+                </c:when>
+                <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
+                    <textarea name="${type.name()}" cols="100"
+                              rows="10"><%=String.join("\n", ((ListSection) resume.getSection(type)).getTexts())%></textarea>
+                </c:when>
+            </c:choose>
+        </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
