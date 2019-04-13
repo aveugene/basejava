@@ -117,9 +117,10 @@ public class ResumeTestData {
                         randomString(random.nextInt(99), ALPHABET_RUS),
                         randomString(random.nextInt(99), ALPHABET_RUS)
                 ));
-/*
+
         resume.addSection(SectionType.EXPERIENCE, new CompaniesSection(
-                new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
+                new Company(null, "Last company ltd.",
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
                 ),
                 new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
@@ -128,16 +129,16 @@ public class ResumeTestData {
         ));
         resume.addSection(SectionType.EDUCATION, new CompaniesSection(
                 new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
-                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
-                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), ""),
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), "")
                 ),
                 new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
-                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
-                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
-                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), ""),
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), ""),
+                        new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), "")
                 )
         ));
-*/
+
 
         return resume;
     }
