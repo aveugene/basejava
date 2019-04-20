@@ -1,6 +1,7 @@
 package ru.javawebinar.basejava.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class ListSection extends AbstractSection {
 
     private List<String> texts;
 
+    public static final ListSection EMPTY = new ListSection(Collections.emptyList());
     public ListSection() {
     }
 

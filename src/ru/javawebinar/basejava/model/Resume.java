@@ -23,6 +23,16 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
+    public static final Resume EMPTY_RESUME = new Resume();
+
+    static {
+        EMPTY_RESUME.addSection(SectionType.PERSONAL, TextSection.EMPTY);
+        EMPTY_RESUME.addSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
+        EMPTY_RESUME.addSection(SectionType.QUALIFICATIONS, ListSection.EMPTY);
+        EMPTY_RESUME.addSection(SectionType.EXPERIENCE, CompaniesSection.EMPTY);
+        EMPTY_RESUME.addSection(SectionType.EDUCATION, CompaniesSection.EMPTY);
+    }
     public Resume() {
     }
 

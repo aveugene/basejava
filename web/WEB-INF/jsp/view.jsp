@@ -56,7 +56,7 @@
                 <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
                     <c:forEach var="company" items="<%=((CompaniesSection) section).getCompanies()%>">
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <h3>
                                     <c:choose>
                                         <c:when test="${company.websiteLink.url != null}">

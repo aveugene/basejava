@@ -19,8 +19,13 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
+        Resume resume;
+        if (uuid.length() == 0) {
+            resume = new Resume(fullName);
+        } else {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+        }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
@@ -56,7 +61,9 @@ public class ResumeServlet extends HttpServlet {
                             String[] descriptions = request.getParameterValues(type.name() + "_" + i + "_DESCRIPTION");
                             List<Company.Period> periodList = new ArrayList<>();
                             for (int j = 0; j < startDates.length; j++) {
-                                periodList.add(new Company.Period(DateUtil.toDate(startDates[j]), DateUtil.toDate(endDates[j]), titles[j], descriptions[j]));
+                                if (startDates[j].length() != 0) {
+                                    periodList.add(new Company.Period(DateUtil.toDate(startDates[j]), DateUtil.toDate(endDates[j]), titles[j], descriptions[j]));
+                                }
                             }
                             companyList.add(new Company(link, periodList));
                         }
@@ -67,7 +74,11 @@ public class ResumeServlet extends HttpServlet {
                 resume.getSections().remove(type);
             }
         }
-        storage.update(resume);
+        if (uuid.length() == 0) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
     }
 
@@ -86,8 +97,37 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             case "view":
+                resume = storage.get(uuid);
+                break;
             case "edit":
                 resume = storage.get(uuid);
+                for (SectionType type : SectionType.values()) {
+                    AbstractSection section = resume.getSection(type);
+                    switch (type) {
+                        case PERSONAL:
+                        case OBJECTIVE:
+                            if (section == null) {
+                                section = TextSection.EMPTY;
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            if (section == null) {
+                                section = ListSection.EMPTY;
+                            }
+                            break;
+                        case EXPERIENCE:
+                        case EDUCATION:
+                            if (section == null) {
+                                section = CompaniesSection.EMPTY;
+                            }
+                            break;
+                    }
+                    resume.addSection(type, section);
+                }
+                break;
+            case "add":
+                resume = Resume.EMPTY_RESUME;
                 break;
             default:
                 throw new IllegalStateException("Action " + action + " is illegal.");

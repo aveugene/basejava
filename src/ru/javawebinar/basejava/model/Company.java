@@ -21,6 +21,7 @@ public class Company implements Serializable{
     private Link websiteLink;
     private List<Period> periods;
 
+    public static final Company EMPTY = new Company("", "", Period.EMPTY);
     public Company() {
     }
 
@@ -76,6 +77,7 @@ public class Company implements Serializable{
         private String title;
         private String description;
 
+        public static final Period EMPTY = new Period();
         public Period() {
         }
 

@@ -9,6 +9,7 @@ public class CompaniesSection extends AbstractSection {
 
     private List<Company> companies;
 
+    public static final CompaniesSection EMPTY = new CompaniesSection(Company.EMPTY);
     public CompaniesSection() {
     }
 

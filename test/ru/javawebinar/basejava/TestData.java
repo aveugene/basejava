@@ -4,6 +4,7 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.UUID;
 
+import static ru.javawebinar.basejava.ResumeTestData.createGKResume;
 import static ru.javawebinar.basejava.ResumeTestData.createResume;
 
 public class TestData {
@@ -19,7 +20,7 @@ public class TestData {
     static {
         RESUME_1 = createResume(UUID_1, "A Will Turner");
         RESUME_2 = createResume(UUID_2, "B Fill Turner");
-        RESUME_3 = createResume(UUID_3, "C Elizabeth Swan");
+        RESUME_3 = createGKResume();
         RESUME_4 = createResume(UUID_4, "D John Swan");
     }
 }
