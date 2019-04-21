@@ -114,32 +114,17 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <form
-            method="post"
-            action="resume"
-            enctype="application/x-www-form-urlencoded">
-        <input
-                type="hidden"
-                name="uuid"
-                value="${resume.uuid}">
+    <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
             <dt> Имя: </dt>
-            <dd><input
-                    type="text"
-                    name="fullName"
-                    size=50
-                    value="${resume.fullName}"></dd>
+            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
         </dl>
         <h3> Контакты :</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
             <dl>
                 <dt> ${type.title} </dt>
-                <dd><input
-                        type="text"
-                        name="${type.name()}"
-                        size=30
-                        value="${resume.getContact(type)}">
-                </dd>
+                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
             </dl>
         </c:forEach>
         <hr>
@@ -153,111 +138,57 @@
                 <h3> ${type.title} </h3>
                 <c:choose>
                     <c:when test="${type == 'OBJECTIVE' || type == 'PERSONAL'}">
-                        <input
-                                type="text"
-                                name="${type.name()}"
-                                size=100
-                                value="<%=section%>">
+                        <input type="text" name="${type.name()}" size=100 value="<%=section%>">
                     </c:when>
                     <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
-                        <textarea
-                                name="${type.name()}"
-                                cols="100"
-                                rows="10"> <%=String.join("\n", ((ListSection) section).getTexts())%> </textarea>
+                        <textarea name="${type.name()}" cols="100" rows="10"> <%=String.join("\n", ((ListSection) section).getTexts())%> </textarea>
                     </c:when>
                     <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
-                        <c:forEach var="company" items="<%=((CompaniesSection) section).getCompanies()%>"
-                                   varStatus="companyCounter">
-                            <div
-                                    id="company_${type}_${companyCounter.index}"
-                                    style="position:relative; padding: 20px 0 20px 0;">
+                        <c:forEach var="company" items="<%=((CompaniesSection) section).getCompanies()%>" varStatus="companyCounter">
+                            <c:if test="${companyCounter.index == 0}">
+                                <div id="company_${type}_1498"></div>
+                                <input type="button" id="insert_company_${type}_1498" onclick='' value="вставить компанию">
+                            </c:if>
+                            <div id="company_${type}_${companyCounter.index}" style="position:relative; padding: 20px 0 20px 0;">
                                 <dl>
-                                    <dt> Название компании:
-                                    </dt>
-                                    <dd><input
-                                            type="text"
-                                            name="${type}"
-                                            size="60"
-                                            value="${company.websiteLink.name}">
-                                    </dd>
+                                    <dt> Название компании:</dt>
+                                    <dd><input type="text" name="${type}" size="60" value="${company.websiteLink.name}"></dd>
                                 </dl>
-                                <dl>
-                                    <dt> Сайт компании:
-                                    </dt>
-                                    <dd><input
-                                            type="text"
-                                            name="${type}_WEBPAGE"
-                                            size="60"
-                                            value="${company.websiteLink.url}"></dd>
+                                <dl id="company_${type}_${companyCounter.index}_Period_1498">
+                                    <dt> Сайт компании:</dt>
+                                    <dd><input type="text" name="${type}_WEBPAGE" size="60" value="${company.websiteLink.url}"></dd>
                                 </dl>
                                 <c:forEach var="period" items="${company.periods}" varStatus="periodCounter">
                                     <jsp:useBean id="period" type="ru.javawebinar.basejava.model.Company.Period"/>
-                                    <div
-                                            id="company_${type}_${companyCounter.index}_Period_${periodCounter.index}"
-                                            style="position:relative; padding: 5px 0 5px 20px;">
+                                    <div id="company_${type}_${companyCounter.index}_Period_${periodCounter.index}" style="position:relative; padding: 5px 0 5px 20px;">
                                         <dl>
                                             <dt> Период ${periodCounter.index} </dt>
                                         </dl>
-                                        <div
-                                                style="position:relative; padding: 5px 0 5px 20px;">
-                                            <script> $(function () {
-                                                $("#${type}_${companyCounter.index}_${periodCounter.index}_STARTDATE").datepicker({
-                                                    dateFormat: "mm/yy",
-                                                    changeMonth: "true",
-                                                    changeYear: "true",
-                                                    firstDay: 1
-                                                });
-                                            }); </script>
-                                            <script> $(function () {
-                                                $("#${type}_${companyCounter.index}_${periodCounter.index}_ENDDATE").datepicker({
-                                                    dateFormat: "mm/yy",
-                                                    changeMonth: "true",
-                                                    changeYear: "true",
-                                                    firstDay: 1
-                                                });
-                                            }); </script>
+                                        <div style="position:relative; padding: 5px 0 5px 20px;">
+                                            <script> $(function () {$("#${type}_${companyCounter.index}_${periodCounter.index}_STARTDATE").datepicker({dateFormat: "mm/yy", changeMonth: "true", changeYear: "true", firstDay: 1});}); </script>
+                                            <script> $(function () {$("#${type}_${companyCounter.index}_${periodCounter.index}_ENDDATE").datepicker({dateFormat: "mm/yy", changeMonth: "true", changeYear: "true", firstDay: 1});}); </script>
                                             <dl>
                                                 <dt>Начальная дата:</dt>
-                                                <dd><input type="text"
-                                                           id="${type}_${companyCounter.index}_${periodCounter.index}_STARTDATE"
-                                                           name="${type}_${companyCounter.index}_STARTDATE"
-                                                           size="20"
-                                                           value="<%=DateUtil.toString(period.getStartDate())%>"></dd>
+                                                <dd><input type="text" id="${type}_${companyCounter.index}_${periodCounter.index}_STARTDATE" name="${type}_${companyCounter.index}_STARTDATE" size="20" value="<%=DateUtil.toString(period.getStartDate())%>"></dd>
                                             </dl>
                                             <dl>
                                                 <dt>Конечная дата:</dt>
-                                                <dd><input type="text"
-                                                           id="${type}_${companyCounter.index}_${periodCounter.index}_ENDDATE"
-                                                           name="${type}_${companyCounter.index}_ENDDATE"
-                                                           size="20"
-                                                           value="<%=DateUtil.toString(period.getEndDate())%>"></dd>
+                                                <dd><input type="text" id="${type}_${companyCounter.index}_${periodCounter.index}_ENDDATE" name="${type}_${companyCounter.index}_ENDDATE" size="20" value="<%=DateUtil.toString(period.getEndDate())%>"></dd>
                                             </dl>
                                             <dl>
                                                 <dt>Название должности:</dt>
-                                                <dd><input type="text"
-                                                           id="${type}_${companyCounter.index}_${periodCounter.index}_TITLE"
-                                                           name="${type}_${companyCounter.index}_TITLE"
-                                                           size="20" value="${period.title}"></dd>
+                                                <dd><input type="text" id="${type}_${companyCounter.index}_${periodCounter.index}_TITLE" name="${type}_${companyCounter.index}_TITLE" size="20" value="${period.title}"></dd>
                                             </dl>
                                             <dl>
                                                 <dt>Описание должности:</dt>
-                                                <dd><textarea
-                                                        id="${type}_${companyCounter.index}_${periodCounter.index}_DESCRIPTION"
-                                                        name="${type}_${companyCounter.index}_DESCRIPTION"
-                                                        cols="75" rows="10">${period.description}</textarea>
-                                                </dd>
+                                                <dd><textarea id="${type}_${companyCounter.index}_${periodCounter.index}_DESCRIPTION" name="${type}_${companyCounter.index}_DESCRIPTION" cols="75" rows="10">${period.description}</textarea></dd>
                                             </dl>
                                         </div>
-                                        <input style="padding: 0 30px 0 30px;" type="button"
-                                               id="delete_company_${type}_${companyCounter.index}_Period_${periodCounter.index}"
-                                               onclick=''
-                                               value="удалить период">
-                                        <input style="padding: 0 30px 0 30px;" type="button"
-                                               id="insert_company_${type}_${companyCounter.index}_Period_${periodCounter.index}"
-                                               onclick=''
-                                               value="вставить период">
+                                        <input style="padding: 0 30px 0 30px;" type="button" id="delete_company_${type}_${companyCounter.index}_Period_${periodCounter.index}" onclick='' value="удалить период">
+                                        <input style="padding: 0 30px 0 30px;" type="button" id="insert_company_${type}_${companyCounter.index}_Period_${periodCounter.index}" onclick='' value="вставить период">
                                     </div>
                                 </c:forEach>
+                                <input style="padding: 0 30px 0 30px;" type="button" id="insert_company_${type}_${companyCounter.index}_Period_1498" onclick='' value="вставить период">
                                 <input type="button" id="delete_company_${type}_${companyCounter.index}" onclick='' value="удалить компанию">
                                 <input type="button" id="insert_company_${type}_${companyCounter.index}" onclick='' value="вставить компанию">
                             </div>
