@@ -20,7 +20,8 @@ public class ResumeServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
         Resume resume;
-        if (uuid.length() == 0) {
+        final boolean isCreate = (uuid == null || uuid.length() == 0);
+        if (isCreate) {
             resume = new Resume(fullName);
         } else {
             resume = storage.get(uuid);
@@ -29,7 +30,7 @@ public class ResumeServlet extends HttpServlet {
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (value != null && value.trim().length() != 0) {
-                resume.addContact(type, value);
+                resume.setContact(type, value);
             } else {
                 resume.getContacts().remove(type);
             }
@@ -40,11 +41,11 @@ public class ResumeServlet extends HttpServlet {
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        resume.addSection(type, new TextSection(value));
+                        resume.setSection(type, new TextSection(value));
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(value.split("\\r\\n")));
+                        resume.setSection(type, new ListSection(value.split("\\r\\n")));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -55,26 +56,27 @@ public class ResumeServlet extends HttpServlet {
                             String name = names[i];
                             String webpage = webpages[i];
                             Link link = new Link(webpage, name);
-                            String[] startDates = request.getParameterValues(type.name() + "_" + i + "_STARTDATE");
-                            String[] endDates = request.getParameterValues(type.name() + "_" + i + "_ENDDATE");
-                            String[] titles = request.getParameterValues(type.name() + "_" + i + "_TITLE");
-                            String[] descriptions = request.getParameterValues(type.name() + "_" + i + "_DESCRIPTION");
+                            String prefix = type.name() + "_" + i;
+                            String[] startDates = request.getParameterValues(prefix + "_STARTDATE");
+                            String[] endDates = request.getParameterValues(prefix + "_ENDDATE");
+                            String[] titles = request.getParameterValues(prefix + "_TITLE");
+                            String[] descriptions = request.getParameterValues(prefix + "_DESCRIPTION");
                             List<Company.Period> periodList = new ArrayList<>();
-                            for (int j = 0; j < startDates.length; j++) {
+                            for (int j = 0; j < titles.length; j++) {
                                 if (startDates[j].length() != 0) {
                                     periodList.add(new Company.Period(DateUtil.toDate(startDates[j]), DateUtil.toDate(endDates[j]), titles[j], descriptions[j]));
                                 }
                             }
                             companyList.add(new Company(link, periodList));
                         }
-                        resume.addSection(type, new CompaniesSection(companyList));
+                        resume.setSection(type, new CompaniesSection(companyList));
                         break;
                 }
             } else {
                 resume.getSections().remove(type);
             }
         }
-        if (uuid.length() == 0) {
+        if (isCreate) {
             storage.save(resume);
         } else {
             storage.update(resume);
@@ -123,7 +125,7 @@ public class ResumeServlet extends HttpServlet {
                             }
                             break;
                     }
-                    resume.addSection(type, section);
+                    resume.setSection(type, section);
                 }
                 break;
             case "add":

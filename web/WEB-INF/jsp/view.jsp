@@ -59,11 +59,11 @@
                             <td colspan="2">
                                 <h3>
                                     <c:choose>
-                                        <c:when test="${company.websiteLink.url != null}">
-                                            <a href="${company.websiteLink.url}">${company.websiteLink.name}</a>
+                                        <c:when test="${empty company.websiteLink.url}">
+                                            ${company.websiteLink.name}
                                         </c:when>
                                         <c:otherwise>
-                                            ${company.websiteLink.name}
+                                            <a href="${company.websiteLink.url}">${company.websiteLink.name}</a>
                                         </c:otherwise>
                                     </c:choose>
                                 </h3>

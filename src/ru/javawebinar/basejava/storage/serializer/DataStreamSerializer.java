@@ -63,22 +63,22 @@ public class DataStreamSerializer implements StreamSerializer {
             Resume resume = new Resume(uuid, fullName);
 
             readSection(dataInputStream, () -> {
-                resume.addContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
+                resume.setContact(ContactType.valueOf(dataInputStream.readUTF()), dataInputStream.readUTF());
             });
             readSection(dataInputStream, () -> {
                 SectionType sectionType = SectionType.valueOf(dataInputStream.readUTF());
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        resume.addSection(sectionType, new TextSection(dataInputStream.readUTF()));
+                        resume.setSection(sectionType, new TextSection(dataInputStream.readUTF()));
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        resume.addSection(sectionType, new ListSection(readSectionList(dataInputStream, dataInputStream::readUTF)));
+                        resume.setSection(sectionType, new ListSection(readSectionList(dataInputStream, dataInputStream::readUTF)));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        resume.addSection(sectionType, new CompaniesSection(readSectionList(dataInputStream, () ->
+                        resume.setSection(sectionType, new CompaniesSection(readSectionList(dataInputStream, () ->
                                 new Company(new Link(dataInputStream.readUTF(), dataInputStream.readUTF()), readSectionList(dataInputStream, () ->
                                         new Company.Period(readDate(dataInputStream), readDate(dataInputStream), dataInputStream.readUTF(), dataInputStream.readUTF())
                                 ))

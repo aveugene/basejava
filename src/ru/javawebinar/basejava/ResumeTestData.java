@@ -10,24 +10,24 @@ public class ResumeTestData {
     public static void main(String[] args) {
 
         Resume grigoriyKislinResume = new Resume("Григорий Кислин");
-        grigoriyKislinResume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-        grigoriyKislinResume.addContact(ContactType.SKYPE, "grigoriy.kislin");
-        grigoriyKislinResume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-        grigoriyKislinResume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        grigoriyKislinResume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        grigoriyKislinResume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        grigoriyKislinResume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        grigoriyKislinResume.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        grigoriyKislinResume.setContact(ContactType.SKYPE, "grigoriy.kislin");
+        grigoriyKislinResume.setContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        grigoriyKislinResume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        grigoriyKislinResume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
+        grigoriyKislinResume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        grigoriyKislinResume.setContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        grigoriyKislinResume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        grigoriyKislinResume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-        grigoriyKislinResume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+        grigoriyKislinResume.setSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        grigoriyKislinResume.setSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        grigoriyKislinResume.setSection(SectionType.ACHIEVEMENT, new ListSection(
                 "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
                 "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
                 "Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
                 "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).",
                 "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."));
-        grigoriyKislinResume.addSection(SectionType.QUALIFICATIONS, new ListSection(
+        grigoriyKislinResume.setSection(SectionType.QUALIFICATIONS, new ListSection(
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite, MS SQL, HSQLDB",
@@ -59,7 +59,7 @@ public class ResumeTestData {
         Company wrike = new Company("https://www.wrike.com/", "Wrike", wrikePeriod);
         Company javaOnlineProjects = new Company("http://javaops.ru/", "Java Online Projects", javaOnlineProjectsPeriod);
 
-        grigoriyKislinResume.addSection(SectionType.EXPERIENCE, new CompaniesSection(alcatel, siemens, enkata, yota, luxoft, ritCenter, wrike, javaOnlineProjects));
+        grigoriyKislinResume.setSection(SectionType.EXPERIENCE, new CompaniesSection(alcatel, siemens, enkata, yota, luxoft, ritCenter, wrike, javaOnlineProjects));
 
         Company.Period mftiTeachingPeriod = new Company.Period(1984, 9, 1987, 6, "Закончил с отличием", null);
         Company.Period spbNIEITMiOTeachingPeriod1 = new Company.Period(1987, 9, 1993, 7, "Инженер (программист Fortran, C)", null);
@@ -76,7 +76,7 @@ public class ResumeTestData {
         Company luxoftTeaching = new Company("http://www.luxoft.ru/", "Luxoft (Deutsche Bank)", luxoftTeachingPeriod);
         Company courseraTeaching = new Company("https://www.coursera.org/course/progfun", "Coursera", courseraTeachingPeriod);
 
-        grigoriyKislinResume.addSection(SectionType.EDUCATION, new CompaniesSection(mftiTeaching, spbNIEITMiOTeaching, alcatelTeaching, siemensTeaching, luxoftTeaching, courseraTeaching));
+        grigoriyKislinResume.setSection(SectionType.EDUCATION, new CompaniesSection(mftiTeaching, spbNIEITMiOTeaching, alcatelTeaching, siemensTeaching, luxoftTeaching, courseraTeaching));
 
 //        System.out.println(grigoriyKislinResume.getContact(ContactType.SKYPE));
 //        grigoriyKislinResume.deleteContact(ContactType.HOMEPAGE);
@@ -98,27 +98,27 @@ public class ResumeTestData {
         }
 
         String name = randomString(8, ALPHABET);
-        resume.addContact(ContactType.PHONE, "+7(9" + random.nextInt(99) + ") " + random.nextInt(999) + "-" + random.nextInt(9999));
-        resume.addContact(ContactType.SKYPE, name);
-        resume.addContact(ContactType.EMAIL, name + "@yandex.ru");
-        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/" + name);
-        resume.addContact(ContactType.GITHUB, "https://github.com/" + name);
-        resume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/" + name);
-        resume.addContact(ContactType.HOMEPAGE, "http://" + name + "/");
+        resume.setContact(ContactType.PHONE, "+7(9" + random.nextInt(99) + ") " + random.nextInt(999) + "-" + random.nextInt(9999));
+        resume.setContact(ContactType.SKYPE, name);
+        resume.setContact(ContactType.EMAIL, name + "@yandex.ru");
+        resume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/" + name);
+        resume.setContact(ContactType.GITHUB, "https://github.com/" + name);
+        resume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/" + name);
+        resume.setContact(ContactType.HOMEPAGE, "http://" + name + "/");
 
-        resume.addSection(SectionType.OBJECTIVE, new TextSection(randomString(80, ALPHABET_RUS)));
-        resume.addSection(SectionType.PERSONAL, new TextSection(""));
-        resume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+        resume.setSection(SectionType.OBJECTIVE, new TextSection(randomString(80, ALPHABET_RUS)));
+        resume.setSection(SectionType.PERSONAL, new TextSection(""));
+        resume.setSection(SectionType.ACHIEVEMENT, new ListSection(
                 randomString(random.nextInt(99), ALPHABET_RUS),
                 randomString(random.nextInt(99), ALPHABET_RUS)
         ));
-        resume.addSection(
+        resume.setSection(
                 SectionType.QUALIFICATIONS, new ListSection(
                         randomString(random.nextInt(99), ALPHABET_RUS),
                         randomString(random.nextInt(99), ALPHABET_RUS)
                 ));
 
-        resume.addSection(SectionType.EXPERIENCE, new CompaniesSection(
+        resume.setSection(SectionType.EXPERIENCE, new CompaniesSection(
                 new Company(null, "Last company ltd.",
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS)),
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
@@ -127,7 +127,7 @@ public class ResumeTestData {
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), randomString(random.nextInt(99), ALPHABET_RUS))
                 )
         ));
-        resume.addSection(SectionType.EDUCATION, new CompaniesSection(
+        resume.setSection(SectionType.EDUCATION, new CompaniesSection(
                 new Company("http://www." + randomString(random.nextInt(9), ALPHABET) + ".ru/", randomString(random.nextInt(9), ALPHABET),
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), ""),
                         new Company.Period(1980 + random.nextInt(39), random.nextInt(11) + 1, 1980 + random.nextInt(39), random.nextInt(11) + 1, randomString(random.nextInt(15), ALPHABET_RUS), "")
@@ -157,24 +157,24 @@ public class ResumeTestData {
 
     public static Resume createGKResume() {
         Resume grigoriyKislinResume = new Resume("Григорий Кислин");
-        grigoriyKislinResume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-        grigoriyKislinResume.addContact(ContactType.SKYPE, "grigoriy.kislin");
-        grigoriyKislinResume.addContact(ContactType.EMAIL, "gkislin@yandex.ru");
-        grigoriyKislinResume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-        grigoriyKislinResume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-        grigoriyKislinResume.addContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
-        grigoriyKislinResume.addContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
+        grigoriyKislinResume.setContact(ContactType.PHONE, "+7(921) 855-0482");
+        grigoriyKislinResume.setContact(ContactType.SKYPE, "grigoriy.kislin");
+        grigoriyKislinResume.setContact(ContactType.EMAIL, "gkislin@yandex.ru");
+        grigoriyKislinResume.setContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        grigoriyKislinResume.setContact(ContactType.GITHUB, "https://github.com/gkislin");
+        grigoriyKislinResume.setContact(ContactType.STACKOVERFLOW, "https://stackoverflow.com/users/548473");
+        grigoriyKislinResume.setContact(ContactType.HOMEPAGE, "http://gkislin.ru/");
 
-        grigoriyKislinResume.addSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
-        grigoriyKislinResume.addSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
-        grigoriyKislinResume.addSection(SectionType.ACHIEVEMENT, new ListSection(
+        grigoriyKislinResume.setSection(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
+        grigoriyKislinResume.setSection(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
+        grigoriyKislinResume.setSection(SectionType.ACHIEVEMENT, new ListSection(
                 "С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", \"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
                 "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
                 "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
                 "Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
                 "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).",
                 "Реализация протоколов по приему платежей всех основных платежных системы России (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."));
-        grigoriyKislinResume.addSection(SectionType.QUALIFICATIONS, new ListSection(
+        grigoriyKislinResume.setSection(SectionType.QUALIFICATIONS, new ListSection(
                 "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite, MS SQL, HSQLDB",
@@ -206,7 +206,7 @@ public class ResumeTestData {
         Company wrike = new Company("https://www.wrike.com/", "Wrike", wrikePeriod);
         Company javaOnlineProjects = new Company("http://javaops.ru/", "Java Online Projects", javaOnlineProjectsPeriod);
 
-        grigoriyKislinResume.addSection(SectionType.EXPERIENCE, new CompaniesSection(javaOnlineProjects, wrike, ritCenter, luxoft, yota, enkata, siemens, alcatel));
+        grigoriyKislinResume.setSection(SectionType.EXPERIENCE, new CompaniesSection(javaOnlineProjects, wrike, ritCenter, luxoft, yota, enkata, siemens, alcatel));
 
         Company.Period mftiTeachingPeriod = new Company.Period(1984, 9, 1987, 6, "Закончил с отличием", null);
         Company.Period spbNIEITMiOTeachingPeriod2 = new Company.Period(1993, 9, 1996, 7, "Аспирантура (программист С, С++)", null);
@@ -223,7 +223,7 @@ public class ResumeTestData {
         Company luxoftTeaching = new Company("http://www.luxoft.ru/", "Luxoft (Deutsche Bank)", luxoftTeachingPeriod);
         Company courseraTeaching = new Company("https://www.coursera.org/course/progfun", "Coursera", courseraTeachingPeriod);
 
-        grigoriyKislinResume.addSection(SectionType.EDUCATION, new CompaniesSection(courseraTeaching, luxoftTeaching, siemensTeaching, alcatelTeaching, spbNIEITMiOTeaching, mftiTeaching));
+        grigoriyKislinResume.setSection(SectionType.EDUCATION, new CompaniesSection(courseraTeaching, luxoftTeaching, siemensTeaching, alcatelTeaching, spbNIEITMiOTeaching, mftiTeaching));
         return grigoriyKislinResume;
     }
 }

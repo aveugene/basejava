@@ -26,12 +26,12 @@ public class Resume implements Comparable<Resume>, Serializable {
     public static final Resume EMPTY_RESUME = new Resume();
 
     static {
-        EMPTY_RESUME.addSection(SectionType.PERSONAL, TextSection.EMPTY);
-        EMPTY_RESUME.addSection(SectionType.OBJECTIVE, TextSection.EMPTY);
-        EMPTY_RESUME.addSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
-        EMPTY_RESUME.addSection(SectionType.QUALIFICATIONS, ListSection.EMPTY);
-        EMPTY_RESUME.addSection(SectionType.EXPERIENCE, CompaniesSection.EMPTY);
-        EMPTY_RESUME.addSection(SectionType.EDUCATION, CompaniesSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.PERSONAL, TextSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.QUALIFICATIONS, ListSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.EXPERIENCE, CompaniesSection.EMPTY);
+        EMPTY_RESUME.setSection(SectionType.EDUCATION, CompaniesSection.EMPTY);
     }
     public Resume() {
     }
@@ -67,7 +67,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         return sections;
     }
 
-    public void addContact(ContactType contactType, String contact) {
+    public void setContact(ContactType contactType, String contact) {
         contacts.put(contactType, contact);
     }
 
@@ -79,7 +79,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         contacts.remove(contactType);
     }
 
-    public void addSection(SectionType sectionType, AbstractSection section) {
+    public void setSection(SectionType sectionType, AbstractSection section) {
         sections.put(sectionType, section);
     }
 
