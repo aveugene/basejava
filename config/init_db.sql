@@ -1,5 +1,5 @@
-create database resumes
-  with owner postgres;
+-- create database resumes
+--   with owner postgres;
 
 create table resume
 (
